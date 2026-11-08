@@ -8,6 +8,8 @@ npm run dev        # http://localhost:5173
 npm run build      # type-check + production build into dist/
 ```
 
+**Live demo:** https://ariba-collections.onrender.com. Render redeploys automatically on every push to `main`.
+
 ## Features
 
 - **Home:** wordmark hero, campaign hero with a testimonial carousel, featured products, manifesto banner, an editorial bestsellers grid, stats, a best-product spotlight and shop-by-style
@@ -38,7 +40,7 @@ public/products/<slug>/← drop product photos/videos here
 ## Adding your photos and videos
 
 1. Put the files in `public/media/` (site-wide slots) or `public/products/<slug>/`.
-2. For product media, register the files in `src/data/media.ts` → `PRODUCT_MEDIA`.
+2. Set the file paths in `src/data/media.ts` (`MEDIA` for site-wide slots, `PRODUCT_MEDIA` for products).
 3. Until a file exists, the site shows a drawn illustration, so you can add media one file at a time.
 
 See [docs/VIDEO_PROMPTS.md](docs/VIDEO_PROMPTS.md) for prompts to generate the videos.

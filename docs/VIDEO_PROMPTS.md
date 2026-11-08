@@ -125,4 +125,4 @@ ffmpeg -i input.mp4 -an -vf "scale=1080:-2,fps=24" -c:v libx264 -crf 26 -preset 
 | Best-product spotlight | `public/media/spotlight.png` (transparent) |
 | Product photos/video | `public/products/<slug>/1.jpg, 2.jpg… , video.mp4`, then register them in `src/data/media.ts` → `PRODUCT_MEDIA` |
 
-The site-wide media slots in the table appear automatically as soon as the file exists. Product photos and videos also need the `PRODUCT_MEDIA` entry. A missing file shows the painted placeholder instead, so the layout never breaks.
+After adding a file, set its path in `src/data/media.ts` (`MEDIA` for site-wide slots, `PRODUCT_MEDIA` for products). A missing file shows the painted placeholder instead, so the layout never breaks.
