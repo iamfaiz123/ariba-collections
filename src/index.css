@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+  body { @apply font-sans text-ink antialiased; background: #F3D3D9; }
+  h1, h2, h3 { @apply font-display uppercase; letter-spacing: -.005em; }
+  :focus-visible { @apply outline-none ring-2 ring-brand ring-offset-2 ring-offset-paper; }
+  input[type='number']::-webkit-inner-spin-button { -webkit-appearance: none; }
+}
+
+@layer components {
+  /* The pink-cloud backdrop the framed page floats on */
+  .backdrop-clouds {
+    background:
+      radial-gradient(40% 30% at 12% 18%, rgba(255,255,255,.85), transparent 70%),
+      radial-gradient(35% 28% at 88% 12%, rgba(255,255,255,.7), transparent 70%),
+      radial-gradient(45% 35% at 80% 75%, rgba(255,255,255,.6), transparent 70%),
+      radial-gradient(40% 30% at 15% 85%, rgba(255,255,255,.65), transparent 70%),
+      radial-gradient(60% 50% at 50% 50%, #EFA9B6, transparent 80%),
+      linear-gradient(160deg, #F8DCE2 0%, #EFB3BF 45%, #E48596 100%);
+  }
+  /* Scenic fallback when no hero photo/video is supplied: dusk sky over a wheat field */
+  .scene-fallback {
+    background:
+      radial-gradient(30% 22% at 30% 38%, rgba(255,214,222,.9), transparent 70%),
+      radial-gradient(28% 20% at 62% 32%, rgba(255,228,233,.85), transparent 70%),
+      linear-gradient(180deg, #A9CFE0 0%, #E9D3D2 38%, #D9A877 62%, #A86A3A 100%);
+  }
+  .frame { @apply relative mx-auto w-full max-w-[1480px] bg-paper md:my-5 md:w-[calc(100%-2.5rem)] md:rounded-[4px] md:shadow-[0_30px_80px_-30px_rgba(110,15,28,.35)]; }
+  .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12; }
+
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium tracking-wide transition disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply btn bg-brand text-white hover:bg-brand-800 active:bg-brand-900; }
+  .btn-dark { @apply btn bg-ink text-white hover:bg-black; }
+  .btn-gold { @apply btn bg-white text-brand hover:bg-blush-100; }
+  .btn-outline { @apply btn border border-ink/20 bg-transparent text-ink hover:border-brand hover:text-brand; }
+  .btn-ghost { @apply btn px-3 hover:bg-ink/5; }
+  .link-cta { @apply inline-flex items-center gap-2 border-b-2 border-brand pb-1 font-display text-lg font-medium uppercase tracking-wide text-brand transition hover:gap-3; }
+
+  .input { @apply w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-sm placeholder:text-ink-400 transition focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15; }
+  .input-error { @apply border-red-400 focus:border-red-500 focus:ring-red-500/15; }
+  .label { @apply mb-1.5 block text-xs font-medium uppercase tracking-wider text-ink-600; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-white px-3 py-1.5 text-xs transition hover:border-brand; }
+  .chip-active { @apply border-brand bg-brand text-white hover:border-brand; }
+  .eyebrow { @apply text-[11px] font-medium uppercase tracking-[.3em] text-ink-600; }
+  .card { @apply rounded-2xl border border-ink/5 bg-white; }
+  .link { @apply underline decoration-ink/30 underline-offset-4 transition hover:text-brand hover:decoration-brand; }
+  .tile { @apply bg-[#ECEAE7]; }
+  .text-outline { color: transparent; -webkit-text-stroke: 1.5px theme("colors.brand.DEFAULT"); }
+  .glass { @apply border border-white/40 bg-white/25 backdrop-blur-md; }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
