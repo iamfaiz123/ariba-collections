@@ -1,6 +1,9 @@
 import type { Category } from '@/types';
 
 export const CATEGORIES: Category[] = [
+  // Kurtis first: it's what Aribas is known for, and what most people search ("kurtis for women").
+  { slug: 'kurtis', name: 'Kurtis', tagline: 'Our own designs, everyday to festive', color: '#6E0F1C', accent: '#F2C9B8', pattern: 'booti', intro: 'Shop designer kurtis for women online in India: our own designs with handmade detailing and quality tailoring, for everyday, office and festive wear. Cash on delivery and easy 7-day returns.' },
+  { slug: 'kurta-sets', name: 'Kurta Sets', tagline: 'Kurta, pants & dupatta, ready to wear', color: '#1F3A2E', accent: '#E8B49A', pattern: 'floral', intro: 'Shop kurta sets for women online in India: embroidered kurtas with matching pants and dupatta, stitched by our own skilled tailors, for festive, office and everyday wear.' },
   { slug: 'anarkali', name: 'Anarkali Suits', tagline: 'Flowing, flared & regal', color: '#7E2647', accent: '#D9B677', pattern: 'paisley', intro: 'Shop Anarkali suits for women online in India: floor-length georgette, chanderi, velvet and organza Anarkalis with zari, gota patti and thread embroidery for weddings, festivals and parties.' },
   { slug: 'straight', name: 'Straight Suits', tagline: 'Clean lines, everyday grace', color: '#2F5D62', accent: '#E9D8A6', pattern: 'booti', intro: 'Shop straight suits for women online in India: chikankari, block-print, silk and lawn kurta sets with pants and dupatta, for office, everyday and festive wear.' },
   { slug: 'sharara', name: 'Sharara Sets', tagline: 'Statement silhouettes for celebrations', color: '#A23E48', accent: '#F2C57C', pattern: 'floral', intro: 'Shop sharara and gharara sets online in India: mirror work, gota and embroidered kurtis with flared shararas, made for mehendi, sangeet and wedding functions.' },

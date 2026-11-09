@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { CartDrawer } from './CartDrawer';
+import { ConsentBanner } from './ConsentBanner';
 import { Footer } from './Footer';
 import { Header } from './Header';
 import { MobileMenu } from './MobileMenu';
@@ -29,6 +30,7 @@ export function Layout() {
       <MobileMenu />
       <SearchOverlay />
       <Toaster />
+      <ConsentBanner />
     </div>
     </>
   );

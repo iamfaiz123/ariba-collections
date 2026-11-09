@@ -12,6 +12,8 @@ services:
     # 200 page. When real products return, add one line per product: /product/<slug> -> /product/<slug>/index.html
     # Order matters: the catch-all must stay last. Keep in sync with the service's Redirects/Rewrites.
     routes:
+      - { type: rewrite, source: /collections/kurtis, destination: /collections/kurtis/index.html }
+      - { type: rewrite, source: /collections/kurta-sets, destination: /collections/kurta-sets/index.html }
       - { type: rewrite, source: /collections/anarkali, destination: /collections/anarkali/index.html }
       - { type: rewrite, source: /collections/palazzo, destination: /collections/palazzo/index.html }
       - { type: rewrite, source: /collections/patiala, destination: /collections/patiala/index.html }

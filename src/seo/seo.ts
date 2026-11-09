@@ -8,7 +8,7 @@
  *    without running JavaScript.
  */
 import { CATEGORIES, categoryBySlug } from '@/data/categories';
-import { FAQS, SHIPPING } from '@/data/content';
+import { FAQS, SHIPPING, SOCIAL } from '@/data/content';
 import { PRODUCTS } from '@/data/products';
 import type { Category, Product } from '@/types';
 
@@ -16,7 +16,7 @@ export const SITE_URL = ((import.meta.env.VITE_SITE_URL as string | undefined) |
 export const BRAND = 'Aribas';
 export const DEFAULT_IMAGE = '/og-image.jpg';
 export const DEFAULT_DESCRIPTION =
-  'Shop designer ladies suits online in India: Anarkali, sharara, straight, palazzo and Patiala suits with handcrafted embroidery. Free shipping above ₹1,999, COD available and easy 7-day returns.';
+  'Shop designer kurtis, kurta sets and suits for women online in India, in our own designs with handmade detailing and quality tailoring. Free shipping above ₹1,999, COD and easy 7-day returns.';
 
 export type JsonLd = Record<string, unknown>;
 
@@ -40,7 +40,7 @@ export const isRealProduct = (p: Product) => !!p.images?.length;
 export const abs = (path: string) => (/^https?:/.test(path) ? path : `${SITE_URL}${path.startsWith('/') ? '' : '/'}${path}`);
 const clip = (s: string, n = 158) => (s.length <= n ? s : `${s.slice(0, n - 1).replace(/\s+\S*$/, '')}…`);
 const rupees = (n: number) => `₹${n.toLocaleString('en-IN')}`;
-const singular = (c?: Category) => (c ? c.name.replace(/ Suits$/, ' Suit').replace(/ Sets$/, ' Set') : 'Suit');
+const singular = (c?: Category) => (c ? c.name.replace(/ Suits$/, ' Suit').replace(/ Sets$/, ' Set').replace(/^Kurtis$/, 'Kurti') : 'Kurti');
 
 /* ---------- JSON-LD building blocks ---------- */
 
@@ -53,8 +53,8 @@ const organization: JsonLd = {
   logo: abs('/icon-512.png'),
   description: DEFAULT_DESCRIPTION,
   areaServed: { '@type': 'Country', name: 'India' },
-  // Add your Instagram / Facebook / YouTube URLs here once the accounts are live.
-  sameAs: [],
+  // Filled from SOCIAL in src/data/content.ts.
+  sameAs: Object.values(SOCIAL).filter(Boolean),
 };
 
 const website: JsonLd = {
@@ -147,7 +147,7 @@ const base = (over: Partial<Seo> & Pick<Seo, 'title'>): Seo => ({
   description: DEFAULT_DESCRIPTION,
   canonical: null,
   image: DEFAULT_IMAGE,
-  imageAlt: 'Aribas: handcrafted ladies suits',
+  imageAlt: 'Aribas: designer kurtis and suits for women',
   type: 'website',
   noindex: false,
   jsonLd: [],
@@ -160,7 +160,7 @@ export function getSeo(pathname: string, search = ''): Seo {
 
   if (path === '/') {
     return base({
-      title: `${BRAND} | Buy Designer Ladies Suits Online in India`,
+      title: `${BRAND} | Designer Kurtis & Suits for Women Online in India`,
       canonical: '/',
       jsonLd: graph(organization, website),
     });
@@ -172,8 +172,8 @@ export function getSeo(pathname: string, search = ''): Seo {
     // Search results and multi-filter combinations are not landing pages: keep them out of the index.
     const filtered = !!term || [...q.keys()].some((k) => k !== 'page' && k !== 'sort');
     return base({
-      title: term ? `Search: ${term} | ${BRAND}` : `Shop All Ladies Suits Online in India | ${BRAND}`,
-      description: 'Browse all Aribas ladies suits: Anarkali, straight, sharara, palazzo, Patiala and unstitched suits. Filter by fabric, occasion, size, colour and price. Delivery across India.',
+      title: term ? `Search: ${term} | ${BRAND}` : `Shop Kurtis & Suits for Women Online in India | ${BRAND}`,
+      description: 'Browse Aribas kurtis, kurta sets and suits for women: Anarkali, straight, sharara, palazzo and Patiala styles in our own designs. Filter by fabric, occasion, size, colour and price. Delivery across India.',
       canonical: filtered ? (cats.length === 1 ? `/collections/${cats[0]}` : null) : '/shop',
       noindex: filtered,
       jsonLd: graph(breadcrumbs([['Home', '/'], ['Shop', '/shop']])),
@@ -190,7 +190,8 @@ export function getSeo(pathname: string, search = ''): Seo {
       title: `${c.name} for Women: Buy Online in India | ${BRAND}`,
       description: clip(c.intro),
       canonical: `/collections/${c.slug}`,
-      noindex: filtered,
+      // An empty collection is a thin page: keep it out of Google until it has real products.
+      noindex: filtered || items.length === 0,
       image: items[0]?.images?.[0] ?? DEFAULT_IMAGE,
       imageAlt: c.name,
       jsonLd: graph(
@@ -281,7 +282,7 @@ export function indexableRoutes(): { path: string; images: { url: string; title:
   return [
     { path: '/', images: [] },
     { path: '/shop', images: [] },
-    ...CATEGORIES.map((c) => ({ path: `/collections/${c.slug}`, images: [] })),
+    ...CATEGORIES.filter((c) => real.some((p) => p.category === c.slug)).map((c) => ({ path: `/collections/${c.slug}`, images: [] })),
     ...real.map((p) => ({ path: `/product/${p.slug}`, lastmod: p.createdAt, images: (p.images ?? []).map((u) => ({ url: abs(u), title: p.name })) })),
     { path: '/about', images: [] },
     { path: '/contact', images: [] },
@@ -291,5 +292,6 @@ export function indexableRoutes(): { path: string; images: { url: string; title:
 
 /** Routes to prerender: indexable ones plus placeholder products (prerendered as noindex so their previews work). */
 export function prerenderRoutes(): string[] {
-  return [...indexableRoutes().map((r) => r.path), ...PRODUCTS.filter((p) => !isRealProduct(p)).map((p) => `/product/${p.slug}`)];
+  const all = new Set([...indexableRoutes().map((r) => r.path), ...CATEGORIES.map((c) => `/collections/${c.slug}`)]);
+  return [...all, ...PRODUCTS.filter((p) => !isRealProduct(p)).map((p) => `/product/${p.slug}`)];
 }

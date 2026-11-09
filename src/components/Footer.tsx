@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CATEGORIES } from '@/data/categories';
+import { CONTACT, SOCIAL } from '@/data/content';
 import { MEDIA } from '@/data/media';
 import { subscribeNewsletter } from '@/services/api';
 import { useUI } from '@/store';
@@ -36,7 +37,7 @@ export function Newsletter({ dark }: { dark?: boolean }) {
 const COLS: { title: string; links: [string, string][] }[] = [
   { title: 'Aribas', links: [['Our story', '/about'], ['Contact', '/contact'], ['FAQs', '/faq']] },
   { title: 'Discover', links: [['New in', '/shop?sort=newest'], ['Bestsellers', '/shop'], ['Wedding edit', '/shop?occasion=Wedding']] },
-  { title: 'Collections', links: CATEGORIES.slice(0, 4).map((c) => [c.name, `/collections/${c.slug}`] as [string, string]) },
+  { title: 'Collections', links: CATEGORIES.slice(0, 5).map((c) => [c.name, `/collections/${c.slug}`] as [string, string]) },
   { title: 'Account', links: [['Sign in', '/account'], ['Track order', '/account'], ['Wishlist', '/wishlist']] },
 ];
 
@@ -56,8 +57,8 @@ export function Footer() {
               <Newsletter dark />
               <p className="mt-3 max-w-sm text-[11px] leading-relaxed text-white/75">We will use your email to send you new drops, festive edits and offers. Unsubscribe anytime.</p>
               <div className="mt-5 flex gap-2">
-                {(['instagram', 'facebook', 'youtube'] as const).map((n) => (
-                  <a key={n} href="#" aria-label={n} className="grid h-9 w-9 place-items-center rounded-full border border-white/40 transition hover:bg-white hover:text-brand"><Icon name={n} size={16} /></a>
+                {(['instagram', 'facebook', 'youtube'] as const).filter((n) => SOCIAL[n]).map((n) => (
+                  <a key={n} href={SOCIAL[n]} target="_blank" rel="noopener" aria-label={`Aribas on ${n}`} className="grid h-9 w-9 place-items-center rounded-full border border-white/40 transition hover:bg-white hover:text-brand"><Icon name={n} size={16} /></a>
                 ))}
               </div>
             </div>
@@ -75,7 +76,7 @@ export function Footer() {
         </div>
       </Media>
       <div className="flex flex-col items-center justify-between gap-2 px-6 py-5 text-[11px] uppercase tracking-wider text-ink-600 sm:flex-row sm:px-10">
-        <p>© {new Date().getFullYear()} Aribas · Lucknow, India</p>
+        <p>© {new Date().getFullYear()} Aribas{CONTACT.city && ` · ${CONTACT.city}`}</p>
         <p className="flex gap-4"><span>UPI</span><span>Visa</span><span>Mastercard</span><span>RuPay</span><span>COD</span></p>
       </div>
     </footer>

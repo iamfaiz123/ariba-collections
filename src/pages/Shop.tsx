@@ -157,8 +157,8 @@ export default function Shop() {
     <div className="container-x py-8">
       <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Shop', to: singleCat || filters.q ? '/shop' : undefined }, ...(singleCat ? [{ label: singleCat.name }] : [])]} />
       <div className="mt-4 flex flex-col gap-1 border-b border-ink/10 pb-6">
-        <Heading as="h1" pre={filters.q ? 'Results for' : singleCat ? 'Shop' : 'Shop all'} title={filters.q ? `“${filters.q}”` : singleCat?.name ?? (filters.occasion?.length === 1 ? `${filters.occasion[0]} suits` : 'Suits')} />
-        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-600">{singleCat?.intro ?? 'Handcrafted ladies suits for every mood and moment: Anarkali, straight, sharara, palazzo, Patiala and unstitched suits, delivered across India.'}</p>
+        <Heading as="h1" pre={filters.q ? 'Results for' : singleCat ? 'Shop' : 'Shop all'} title={filters.q ? `“${filters.q}”` : singleCat?.name ?? (filters.occasion?.length === 1 ? `${filters.occasion[0]} wear` : 'Kurtis & Suits')} />
+        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-600">{singleCat?.intro ?? 'Kurtis, kurta sets and suits in our own designs, with handmade detailing and quality tailoring, delivered across India.'}</p>
         {!filters.q && (
           <nav aria-label="Collections" className="no-scrollbar mt-4 flex gap-2 overflow-x-auto">
             {CATEGORIES.map((c) => (

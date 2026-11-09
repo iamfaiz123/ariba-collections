@@ -22,12 +22,12 @@ const featured = () => PRODUCTS.filter(isRealProduct);
 
 function body(path: string): string {
   if (path === '/') {
-    return `<h1>Aribas: designer ladies suits online in India</h1>
-<p>Handcrafted Anarkali, sharara, straight, palazzo and Patiala suits, in our own designs, with handmade detailing and quality tailoring, delivered across India. Free shipping above ₹1,999, cash on delivery and easy 7-day returns.</p>
+    return `<h1>Aribas: designer kurtis and suits for women online in India</h1>
+<p>Kurtis, kurta sets and suits in our own designs, with handmade detailing and quality tailoring, delivered across India. Free shipping above ₹1,999, cash on delivery and easy 7-day returns.</p>
 <h2>Shop by style</h2><ul>${CATEGORIES.map((c) => `<li><a href="/collections/${c.slug}">${e(c.name)}</a>: ${e(c.tagline)}</li>`).join('')}</ul>
 <h2>Featured</h2>${listing(featured())}`;
   }
-  if (path === '/shop') return `<h1>Shop all ladies suits</h1><p>Anarkali, straight, sharara, palazzo, Patiala and unstitched suits, delivered across India.</p>${listing(featured())}`;
+  if (path === '/shop') return `<h1>Shop kurtis &amp; suits</h1><p>Kurtis, kurta sets, Anarkali, straight, sharara, palazzo and Patiala suits, in our own designs, delivered across India.</p>${listing(featured())}`;
 
   const col = path.match(/^\/collections\/(.+)$/);
   if (col) {

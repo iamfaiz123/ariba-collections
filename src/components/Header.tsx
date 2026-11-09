@@ -109,7 +109,7 @@ function MegaMenu() {
             <Link key={c.slug} to={`/collections/${c.slug}`} className="group">
               <div className="tile aspect-[4/5] overflow-hidden rounded-xl">
                 <div className="h-full transition duration-700 group-hover:scale-105">
-                  <ProductArt art={{ pattern: c.pattern, silhouette: c.slug === 'anarkali' ? 'anarkali' : c.slug === 'straight' ? 'straight' : 'aline', bottom: c.slug === 'sharara' ? 'sharara' : 'pant' }} color={c.color} accent={c.accent} />
+                  <ProductArt art={{ pattern: c.pattern, silhouette: c.slug === 'anarkali' ? 'anarkali' : c.slug === 'kurtis' || c.slug === 'kurta-sets' || c.slug === 'straight' ? 'straight' : 'aline', bottom: c.slug === 'sharara' ? 'sharara' : 'pant' }} color={c.color} accent={c.accent} />
                 </div>
               </div>
               <p className="mt-2 font-display uppercase text-brand group-hover:underline">{c.name}</p>

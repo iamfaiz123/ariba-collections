@@ -1,3 +1,4 @@
+import { TRACKING } from '@/data/content';
 import { abs, BRAND, type Seo } from './seo';
 
 /** One <meta>/<link>/<script> tag, described as data so it can be rendered as a string (build) or as DOM (browser). */
@@ -22,6 +23,7 @@ export function headTags(seo: Seo): HeadTag[] {
     meta('name', 'twitter:description', seo.description),
     meta('name', 'twitter:image', image),
   ];
+  if (TRACKING.googleSiteVerification) tags.push(meta('name', 'google-site-verification', TRACKING.googleSiteVerification));
   if (url) {
     tags.push(
       meta('property', 'og:url', url),

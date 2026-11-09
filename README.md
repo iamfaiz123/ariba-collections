@@ -57,6 +57,10 @@ A product with photos is automatically added to the shop and sitemap and given G
 - `src/seo/seo.ts` decides the title, description, canonical URL, Open Graph image and JSON-LD for each route (Organization, WebSite, BreadcrumbList, CollectionPage, Product with INR price, shipping and returns, FAQPage).
 - `npm run build` prerenders each public route to static HTML, so crawlers and WhatsApp/Instagram previews see the right tags without JavaScript, and writes `sitemap.xml` and `robots.txt`.
 - The site URL comes from `VITE_SITE_URL` (default `https://ariba-collections.onrender.com`). Set it when moving to a custom domain.
+- **Contact details and social profiles** live in `CONTACT` and `SOCIAL` in `src/data/content.ts`. Empty fields are hidden everywhere; filled social URLs also go into Google's brand data (`sameAs`). Keep the name, phone and city identical to your Google Business Profile.
+- **Google Search Console & Analytics:** paste the codes into `TRACKING` in `src/data/content.ts` and push. The verification tag then goes on every page; Analytics loads only after a visitor accepts the cookie banner, and sends a page view on every route change.
+- **Empty collections are noindex** and left out of the sitemap until they contain at least one real product, so Google never sees thin pages.
+- **Keywords:** the site targets "kurtis", "kurta sets" and "suits for women". Kurtis and Kurta Sets are the first two collections.
 - **Reviews:** there are none yet. The UI shows stars and reviews only for products with real reviews. Add `aggregateRating` to the Product JSON-LD in `seo.ts` once real reviews come from the backend; never mark up reviews that aren't real.
 
 ## Deploying (Render)

@@ -1,4 +1,6 @@
 export type CategorySlug =
+  | 'kurtis'
+  | 'kurta-sets'
   | 'anarkali'
   | 'straight'
   | 'sharara'

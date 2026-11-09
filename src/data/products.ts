@@ -46,6 +46,8 @@ export interface ProductEntry {
 const SIZES_STITCHED: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
 const ART_BY_CATEGORY: Record<CategorySlug, Omit<ProductArt, 'pattern'>> = {
+  kurtis: { silhouette: 'straight', bottom: 'pant' },
+  'kurta-sets': { silhouette: 'straight', bottom: 'pant' },
   anarkali: { silhouette: 'anarkali', bottom: 'pant' },
   straight: { silhouette: 'straight', bottom: 'pant' },
   sharara: { silhouette: 'aline', bottom: 'sharara' },

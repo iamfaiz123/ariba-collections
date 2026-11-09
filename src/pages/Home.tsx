@@ -15,7 +15,7 @@ import { inr } from '@/utils/format';
 
 const catArt = (c: Category) => ({
   pattern: c.pattern,
-  silhouette: c.slug === 'anarkali' ? ('anarkali' as const) : c.slug === 'straight' || c.slug === 'patiala' || c.slug === 'unstitched' ? ('straight' as const) : ('aline' as const),
+  silhouette: c.slug === 'anarkali' ? ('anarkali' as const) : ['straight', 'patiala', 'unstitched', 'kurtis', 'kurta-sets'].includes(c.slug) ? ('straight' as const) : ('aline' as const),
   bottom: c.slug === 'sharara' ? ('sharara' as const) : c.slug === 'palazzo' ? ('palazzo' as const) : c.slug === 'patiala' ? ('patiala' as const) : ('pant' as const),
 });
 
@@ -128,7 +128,7 @@ export default function Home() {
       {/* 8 — Shop by style */}
       <section className="container-x pt-28">
         <SectionHeading pre="Shop by" title="Style" action={<ExploreLink to="/shop">View all</ExploreLink>} />
-        <div className="no-scrollbar -mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 lg:grid-cols-6">
+        <div className="no-scrollbar -mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-4 sm:overflow-visible sm:px-0">
           {CATEGORIES.map((c) => (
             <Link key={c.slug} to={`/collections/${c.slug}`} className="group w-40 shrink-0 snap-start sm:w-auto">
               <div className="tile aspect-[3/4] overflow-hidden rounded-xl">
@@ -149,18 +149,30 @@ function HeroFilm() {
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
   const [ready, setReady] = useState(false);
+  // The film is only attached once the page has loaded, so the poster image paints first (faster LCP).
+  const [src, setSrc] = useState<string>();
 
-  // Respect reduced-motion: show the poster frame and let the visitor choose to play.
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      ref.current?.pause();
+    type Conn = { saveData?: boolean; effectiveType?: string };
+    const conn = (navigator as Navigator & { connection?: Conn }).connection;
+    const lowData = !!conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType ?? '');
+    // Reduced motion, data saver or a 2G connection: keep the still frame; the play button loads the film.
+    if (lowData || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setPlaying(false);
+      return;
     }
+    const start = () => setTimeout(() => setSrc(MEDIA.hero.video), 300);
+    if (document.readyState === 'complete') { const t = start(); return () => clearTimeout(t); }
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const onLoad = () => { t = start(); };
+    window.addEventListener('load', onLoad, { once: true });
+    return () => { window.removeEventListener('load', onLoad); if (t) clearTimeout(t); };
   }, []);
 
   const togglePlay = () => {
     const v = ref.current;
     if (!v) return;
+    if (!src) { setSrc(MEDIA.hero.video); setPlaying(true); return; } // autoPlay starts it once loaded
     if (v.paused) {
       void v.play();
       setPlaying(true);
@@ -183,9 +195,9 @@ function HeroFilm() {
       <video
         ref={ref}
         className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}
-        src={MEDIA.hero.video}
+        src={src}
         poster={MEDIA.hero.image}
-        autoPlay muted loop playsInline preload="auto"
+        autoPlay muted loop playsInline preload={src ? 'auto' : 'none'}
         onCanPlay={() => setReady(true)}
         aria-label="Model in a dusty-rose embroidered Aribas suit walking through a sunlit palace hall"
       />
@@ -213,7 +225,7 @@ function HeroFilm() {
           <ExploreLink to="/shop">Shop the collection</ExploreLink>
         </div>
         <h1 className="mt-1 flex select-none justify-center font-script normal-case tracking-normal text-[33vw] leading-[1.05] text-brand sm:text-[22vw] xl:text-[300px]">
-          <span className="sr-only">Aribas: designer ladies suits online in India</span>
+          <span className="sr-only">Aribas: designer kurtis and suits for women online in India</span>
           <span className="animate-word-in pr-[.12em]" style={{ animationDelay: '300ms' }} aria-hidden>Aribas</span>
         </h1>
       </div>

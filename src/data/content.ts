@@ -13,6 +13,34 @@ export const SHIPPING = {
   codFee: 49,
 };
 
+/**
+ * Real contact details. Leave a field empty ('') and it is simply not shown anywhere.
+ * Fill these in: they appear on the Contact page and footer, and Google uses them to trust the business.
+ */
+export const CONTACT = {
+  phone: '', // e.g. '+91 90000 00000'
+  hours: '', // e.g. 'Mon–Sat, 10am–7pm'
+  email: '', // e.g. 'hello@aribas.in'
+  city: '', // e.g. 'Lucknow, Uttar Pradesh'
+};
+
+/**
+ * Google tools. Paste the codes here and redeploy; empty = switched off.
+ * - googleSiteVerification: Search Console → "HTML tag" method → just the content="…" value.
+ * - googleAnalyticsId: Analytics → Data stream → Measurement ID, e.g. 'G-ABC123XYZ'.
+ */
+export const TRACKING = {
+  googleSiteVerification: '',
+  googleAnalyticsId: '',
+};
+
+/** Profile URLs. Empty ones are hidden in the footer and left out of Google's brand data (sameAs). */
+export const SOCIAL: Record<'instagram' | 'facebook' | 'youtube', string> = {
+  instagram: '', // e.g. 'https://www.instagram.com/aribas'
+  facebook: '',
+  youtube: '',
+};
+
 export const FAQS = [
   { q: 'How do I choose the right size?', a: 'Every product page has a size chart. Measure your bust, waist and hip and pick the size that fits your largest measurement. Our kurtas include 1.5–2" of seam allowance for alterations.' },
   { q: 'How long does delivery take?', a: 'Standard delivery takes 4–7 business days across India. Express delivery takes 1–3 business days in metro cities.' },

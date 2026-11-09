@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@/components/Icon';
 import { Media } from '@/components/Media';
 import { EmptyState, ExploreLink, Field, Heading, Spinner } from '@/components/ui';
-import { FAQS } from '@/data/content';
+import { CONTACT, FAQS } from '@/data/content';
 import { MEDIA } from '@/data/media';
 import { sendContactMessage } from '@/services/api';
 import { useUI } from '@/store';
@@ -46,11 +46,13 @@ export function Contact() {
       <div>
         <Heading as="h1" pre="Get in" title="Touch" size="xl" />
         <p className="mt-6 max-w-md text-ink-600">Questions about sizing, an order, or a custom request? We reply within one business day.</p>
-        <ul className="mt-8 space-y-4 text-sm">
-          <li className="flex gap-3"><Icon name="phone" className="text-brand" /> +91 98765 43210 · Mon–Sat, 10am–7pm</li>
-          <li className="flex gap-3"><Icon name="mail" className="text-brand" /> hello@aribacollections.in</li>
-          <li className="flex gap-3"><Icon name="pin" className="text-brand" /> Hazratganj, Lucknow, Uttar Pradesh 226001</li>
-        </ul>
+        {(CONTACT.phone || CONTACT.email || CONTACT.city) && (
+          <ul className="mt-8 space-y-4 text-sm">
+            {CONTACT.phone && <li className="flex gap-3"><Icon name="phone" className="text-brand" /> <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`}>{CONTACT.phone}</a>{CONTACT.hours && ` · ${CONTACT.hours}`}</li>}
+            {CONTACT.email && <li className="flex gap-3"><Icon name="mail" className="text-brand" /> <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>}
+            {CONTACT.city && <li className="flex gap-3"><Icon name="pin" className="text-brand" /> {CONTACT.city}</li>}
+          </ul>
+        )}
       </div>
       <div className="rounded-xl bg-white p-8">
         {sent ? (
