@@ -6,10 +6,17 @@ services:
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
     pullRequestPreviewsEnabled: false
+    # Prerendered pages live at <route>/index.html; Render doesn't map a folder to its index.html,
+    # so each prerendered route is rewritten explicitly. Everything else gets the app shell (noindex).
+    # Order matters: the catch-all must stay last. Keep in sync with the service's Redirects/Rewrites.
     routes:
-      - type: rewrite
-        source: /*
-        destination: /200.html
+      - { type: rewrite, source: /product/*, destination: /product/*/index.html }
+      - { type: rewrite, source: /collections/*, destination: /collections/*/index.html }
+      - { type: rewrite, source: /shop, destination: /shop/index.html }
+      - { type: rewrite, source: /about, destination: /about/index.html }
+      - { type: rewrite, source: /contact, destination: /contact/index.html }
+      - { type: rewrite, source: /faq, destination: /faq/index.html }
+      - { type: rewrite, source: /*, destination: /200.html }
     headers:
       - path: /assets/*
         name: Cache-Control

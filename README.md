@@ -61,7 +61,7 @@ A product with photos is automatically listed first in the shop, added to the si
 
 ## Deploying (Render)
 
-Static site, built with `npm ci && npm run build`, published from `dist/`. Routes are in `render.yaml`: unknown paths are rewritten to `/200.html` (the app shell, marked noindex). Render serves prerendered pages such as `/product/<slug>/index.html` directly.
+Static site, built with `npm ci && npm run build`, published from `dist/`. Rewrite rules are listed in `render.yaml` (set on the service through the Render API; the service is not managed as a Blueprint). Each prerendered route, e.g. `/product/*`, is rewritten to its `index.html`, and everything else to `/200.html` (the app shell, marked noindex). If you add a new kind of public page, add a rule for it before the catch-all.
 
 ## Phase 2: connecting the backend
 
