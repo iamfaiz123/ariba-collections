@@ -20,7 +20,7 @@ const catArt = (c: Category) => ({
 });
 
 const STATS = [
-  ['2023', 'The year Ariba began, with our own designs instead of what was already on the shelf.'],
+  ['2023', 'The year Aribas began, with our own designs instead of what was already on the shelf.'],
   ['1000s', 'Of kurtis sold to women who appreciate thoughtfully made clothing.'],
   ['100%', 'Our own designs. Every pattern is created by us, never copied from the market.'],
   ['In-house', 'Tailoring by our own skilled tailors, with handmade detailing on every piece.'],
@@ -36,7 +36,7 @@ const FEATURES: { icon: IconName; title: string; body: string }[] = [
 export default function Home() {
   const featured = useAsync(() => getFeatured('new', 4), []);
   const best = useAsync(() => getFeatured('bestseller', 3), []);
-  const spotlight = PRODUCTS[0];
+  const spotlight = PRODUCTS[0] as (typeof PRODUCTS)[number] | undefined;
 
   return (
     <>
@@ -46,11 +46,13 @@ export default function Home() {
       {/* 2 — New collection: posters either side of the film */}
       <NewCollection />
 
-      {/* 3 — Featured products */}
+      {/* 3 — Featured products (hidden while the shop is empty) */}
+      {PRODUCTS.length > 0 && (
       <section className="container-x pt-24">
         <SectionHeading pre="Featured" title="Products" action={<ExploreLink to="/shop?sort=newest">Explore all</ExploreLink>} />
         <ProductGrid products={featured.data} loading={featured.loading} count={4} />
       </section>
+      )}
 
       {/* 4 — Manifesto banner */}
       <section className="container-x pt-24">
@@ -61,13 +63,14 @@ export default function Home() {
               We don’t <span className="text-outline">chase</span> trends
               <br />— we <span className="text-outline">weave</span> traditions.
             </p>
-            <p className="mt-5 max-w-md text-sm text-ink-600">Every Ariba piece begins as our own design and is brought to life with handmade detailing by our own skilled tailors.</p>
+            <p className="mt-5 max-w-md text-sm text-ink-600">Every Aribas piece begins as our own design and is brought to life with handmade detailing by our own skilled tailors.</p>
             <div className="mt-6"><ExploreLink to="/about">Our story</ExploreLink></div>
           </div>
         </div>
       </section>
 
-      {/* 5 — Bestsellers, editorial grid */}
+      {/* 5 — Bestsellers, editorial grid (hidden while the shop is empty) */}
+      {PRODUCTS.length > 0 && (
       <section className="container-x pt-24">
         <SectionHeading pre="Our" title="Bestsellers" action={<ExploreLink to="/shop">Explore all</ExploreLink>} />
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-5 lg:grid-cols-4">
@@ -80,6 +83,7 @@ export default function Home() {
               ))}
         </div>
       </section>
+      )}
 
       {/* 6 — Stats */}
       <section className="container-x pt-24">
@@ -94,7 +98,8 @@ export default function Home() {
         </dl>
       </section>
 
-      {/* 7 — Best product spotlight */}
+      {/* 7 — Best product spotlight (hidden while the shop is empty) */}
+      {spotlight && (
       <section className="container-x pt-28">
         <div className="text-center">
           <Heading pre="Our best" title="Product" className="justify-center" />
@@ -118,6 +123,7 @@ export default function Home() {
         </div>
         <div className="mt-10 text-center"><ExploreLink to={`/product/${spotlight.slug}`} /></div>
       </section>
+      )}
 
       {/* 8 — Shop by style */}
       <section className="container-x pt-28">
@@ -172,7 +178,7 @@ function HeroFilm() {
   };
 
   return (
-    <section className="relative h-[calc(100svh-6.5rem)] min-h-[560px] overflow-hidden bg-[#E9D9C4]" aria-label="Ariba — the brand film">
+    <section className="relative h-[calc(100svh-6.5rem)] min-h-[560px] overflow-hidden bg-[#E9D9C4]" aria-label="Aribas — the brand film">
       <img src={MEDIA.hero.image} alt="" width={1280} height={720} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
       <video
         ref={ref}
@@ -181,7 +187,7 @@ function HeroFilm() {
         poster={MEDIA.hero.image}
         autoPlay muted loop playsInline preload="auto"
         onCanPlay={() => setReady(true)}
-        aria-label="Model in a dusty-rose embroidered Ariba suit walking through a sunlit palace hall"
+        aria-label="Model in a dusty-rose embroidered Aribas suit walking through a sunlit palace hall"
       />
       {/* Fade the film into the page so the wordmark sits on paper */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent via-30% to-transparent" />
@@ -207,12 +213,11 @@ function HeroFilm() {
           <ExploreLink to="/shop">Shop the collection</ExploreLink>
         </div>
         <h1 className="mt-3 flex select-none justify-center font-display text-[30vw] font-bold leading-[.9] tracking-tight text-brand sm:text-[19vw] xl:text-[250px]">
-          <span className="sr-only">Ariba Collections: designer ladies suits online in India</span>
-          {'ARIBA'.split('').map((ch, i) => (
+          <span className="sr-only">Aribas: designer ladies suits online in India</span>
+          {'ARIBAS'.split('').map((ch, i) => (
             <span key={i} className="animate-word-in" style={{ animationDelay: `${300 + i * 110}ms` }} aria-hidden>{ch}</span>
           ))}
         </h1>
-        <p className="mt-1 text-center font-serif text-lg italic text-brand sm:text-2xl">collections</p>
       </div>
     </section>
   );

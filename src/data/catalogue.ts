@@ -8,8 +8,13 @@ import type { ProductEntry } from './products';
  * 2. Add an entry below. `colors` are keys of PALETTE in products.ts (add a new colour there if needed).
  * 3. Real products (with images) are listed first in the shop, go into the sitemap and get Google
  *    product data automatically.
+ *
+ * The shop is empty for now (2026-11-09). To bring a held product back, move it from ON_HOLD into CATALOGUE.
  */
-export const CATALOGUE: ProductEntry[] = [
+export const CATALOGUE: ProductEntry[] = [];
+
+/** Products taken off the site for now. Not shown, not in the sitemap. Photos stay in public/products/. */
+export const ON_HOLD: ProductEntry[] = [
   {
     name: 'Zumrud Embroidered Lawn Suit',
     category: 'straight',

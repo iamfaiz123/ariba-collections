@@ -24,7 +24,7 @@ try {
   }
   // Fallback for app-only routes (cart, checkout, order…) served through the SPA rewrite: generic, noindex.
   const fallback = template
-    .replace(/<!--seo:start-->[\s\S]*?<!--seo:end-->/, '<title>Ariba Collections</title>\n    <meta name="robots" content="noindex, follow" data-seo />')
+    .replace(/<!--seo:start-->[\s\S]*?<!--seo:end-->/, '<title>Aribas</title>\n    <meta name="robots" content="noindex, follow" data-seo />')
     .replace('<!--app-->', '');
   await writeFile(join(dist, '200.html'), fallback);
 

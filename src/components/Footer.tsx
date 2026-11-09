@@ -34,7 +34,7 @@ export function Newsletter({ dark }: { dark?: boolean }) {
 }
 
 const COLS: { title: string; links: [string, string][] }[] = [
-  { title: 'Ariba', links: [['Our story', '/about'], ['Contact', '/contact'], ['FAQs', '/faq']] },
+  { title: 'Aribas', links: [['Our story', '/about'], ['Contact', '/contact'], ['FAQs', '/faq']] },
   { title: 'Discover', links: [['New in', '/shop?sort=newest'], ['Bestsellers', '/shop'], ['Wedding edit', '/shop?occasion=Wedding']] },
   { title: 'Collections', links: CATEGORIES.slice(0, 4).map((c) => [c.name, `/collections/${c.slug}`] as [string, string]) },
   { title: 'Account', links: [['Sign in', '/account'], ['Track order', '/account'], ['Wishlist', '/wishlist']] },
@@ -48,7 +48,7 @@ export function Footer() {
         <div className="relative flex min-h-[560px] flex-col justify-between px-6 pb-8 pt-10 sm:px-10">
           <div className="text-center">
             <Link to="/shop" className="link-cta">Explore now <Icon name="arrowUpRight" size={18} /></Link>
-            <p className="mt-4 select-none font-display text-[22vw] font-bold uppercase leading-[.8] text-brand md:text-[15vw] xl:text-[200px]" aria-hidden>Ariba</p>
+            <p className="mt-4 select-none font-display text-[22vw] font-bold uppercase leading-[.8] text-brand md:text-[15vw] xl:text-[200px]" aria-hidden>Aribas</p>
           </div>
           <div className="grid gap-10 text-white lg:grid-cols-[1.2fr_2fr]">
             <div>
@@ -74,7 +74,7 @@ export function Footer() {
         </div>
       </Media>
       <div className="flex flex-col items-center justify-between gap-2 px-6 py-5 text-[11px] uppercase tracking-wider text-ink-600 sm:flex-row sm:px-10">
-        <p>© {new Date().getFullYear()} Ariba Collections · Lucknow, India</p>
+        <p>© {new Date().getFullYear()} Aribas · Lucknow, India</p>
         <p className="flex gap-4"><span>UPI</span><span>Visa</span><span>Mastercard</span><span>RuPay</span><span>COD</span></p>
       </div>
     </footer>

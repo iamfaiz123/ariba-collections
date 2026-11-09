@@ -41,42 +41,7 @@ export interface ProductEntry {
   video?: string;
 }
 
-/**
- * DEMO products: drawn placeholders so the shop doesn't look empty. They are hidden from Google
- * (see src/seo) and can be deleted once there are enough real products in catalogue.ts.
- */
-const DEMO: ProductEntry[] = [
-  { name: 'Mehr Zari Anarkali', category: 'anarkali', fabric: 'Georgette', occasion: 'Wedding', price: 6499, mrp: 8999, colors: ['maroon', 'wine', 'emerald'], pattern: 'paisley', isBestseller: true, blurb: 'A floor-grazing georgette Anarkali with zari paisley work cascading across a 24-kali flare.' },
-  { name: 'Noor Gota Patti Anarkali', category: 'anarkali', fabric: 'Chanderi', occasion: 'Festive', price: 4299, mrp: 5799, colors: ['rani', 'mustard'], pattern: 'booti', isNew: true, blurb: 'Light chanderi with hand-applied gota patti booti and a scalloped dupatta.' },
-  { name: 'Gulnaar Velvet Anarkali', category: 'anarkali', fabric: 'Velvet', occasion: 'Wedding', price: 8999, mrp: 11999, colors: ['wine', 'navy', 'black'], pattern: 'floral', stock: 4, blurb: 'Plush micro-velvet with dabka & sequin florals — made for winter weddings.' },
-  { name: 'Sitara Printed Anarkali', category: 'anarkali', fabric: 'Rayon', occasion: 'Casual', price: 1899, mrp: 2799, colors: ['powder', 'peach', 'mint'], pattern: 'floral', isBestseller: true, blurb: 'An easy rayon Anarkali printed with soft florals and finished with lace trims.' },
-  { name: 'Ruhani Organza Anarkali', category: 'anarkali', fabric: 'Organza', occasion: 'Party', price: 5499, mrp: 7499, colors: ['blush', 'lavender', 'ivory'], pattern: 'booti', isNew: true, blurb: 'Sheer organza layers with pearl-and-thread booti for a dreamy evening look.' },
-
-  { name: 'Aarohi Chikankari Straight Suit', category: 'straight', fabric: 'Cotton', occasion: 'Office', price: 2499, mrp: 3299, colors: ['ivory', 'powder', 'mint'], pattern: 'booti', isBestseller: true, blurb: 'Lucknowi-inspired chikankari on breathable cotton, paired with straight pants.' },
-  { name: 'Ziya Block Print Kurta Set', category: 'straight', fabric: 'Cotton', occasion: 'Casual', price: 1599, mrp: 2199, colors: ['teal', 'rust', 'navy'], pattern: 'chevron', blurb: 'Hand block-printed cotton with a mulmul dupatta — your everyday favourite.' },
-  { name: 'Inaya Silk Straight Suit', category: 'straight', fabric: 'Silk', occasion: 'Festive', price: 4999, mrp: 6499, colors: ['emerald', 'mustard', 'maroon'], pattern: 'paisley', isNew: true, blurb: 'Art silk with a woven paisley jaal, embroidered yoke and banarasi dupatta.' },
-  { name: 'Kiara Pinstripe Office Set', category: 'straight', fabric: 'Rayon', occasion: 'Office', price: 1799, mrp: 2499, colors: ['navy', 'black', 'olive'], pattern: 'stripes', blurb: 'Tailored pinstripe rayon with a mandarin collar — boardroom ready.' },
-  { name: 'Saba Muslin Straight Suit', category: 'straight', fabric: 'Muslin', occasion: 'Festive', price: 3299, mrp: 4299, colors: ['peach', 'blush', 'lavender'], pattern: 'floral', blurb: 'Soft muslin with thread-and-mirror florals around the neckline and hem.' },
-
-  { name: 'Shehnaaz Mirror Sharara Set', category: 'sharara', fabric: 'Georgette', occasion: 'Wedding', price: 7499, mrp: 9999, colors: ['rani', 'emerald', 'mustard'], pattern: 'booti', isBestseller: true, blurb: 'Short kurti with mirror work over a tiered georgette sharara — mehendi perfect.' },
-  { name: 'Mahira Gharara Set', category: 'sharara', fabric: 'Silk', occasion: 'Wedding', price: 9499, mrp: 12999, colors: ['wine', 'maroon'], pattern: 'paisley', stock: 3, blurb: 'A heritage gharara in rich silk with a gota-lined knee joint and heavy dupatta.' },
-  { name: 'Afreen Printed Sharara', category: 'sharara', fabric: 'Rayon', occasion: 'Party', price: 2299, mrp: 3199, colors: ['peach', 'mint', 'powder'], pattern: 'floral', isNew: true, blurb: 'Breezy printed sharara set with a ruffled hem and chiffon dupatta.' },
-  { name: 'Laila Organza Sharara', category: 'sharara', fabric: 'Organza', occasion: 'Festive', price: 5999, mrp: 7999, colors: ['lavender', 'blush', 'ivory'], pattern: 'floral', blurb: 'Pastel organza with 3D floral appliqué — a sangeet showstopper.' },
-
-  { name: 'Rumi Palazzo Suit', category: 'palazzo', fabric: 'Rayon', occasion: 'Casual', price: 1499, mrp: 1999, colors: ['mustard', 'teal', 'rust'], pattern: 'chevron', isBestseller: true, blurb: 'Relaxed rayon kurta with wide-leg palazzos — wear it all day, every day.' },
-  { name: 'Hiba Embroidered Palazzo Set', category: 'palazzo', fabric: 'Georgette', occasion: 'Party', price: 3499, mrp: 4799, colors: ['black', 'navy', 'wine'], pattern: 'booti', blurb: 'Sequinned georgette with flared palazzos for cocktail evenings.' },
-  { name: 'Tara Cotton Palazzo Set', category: 'palazzo', fabric: 'Cotton', occasion: 'Office', price: 1699, mrp: 2299, colors: ['powder', 'ivory', 'olive'], pattern: 'stripes', isNew: true, blurb: 'Crisp cotton with subtle stripes and pintuck detailing for workdays.' },
-  { name: 'Zoya Chanderi Palazzo Suit', category: 'palazzo', fabric: 'Chanderi', occasion: 'Festive', price: 3999, mrp: 5299, colors: ['mint', 'peach', 'rani'], pattern: 'paisley', blurb: 'Shimmering chanderi with zari paisleys and lace-edged palazzos.' },
-
-  { name: 'Simran Phulkari Patiala', category: 'patiala', fabric: 'Cotton', occasion: 'Festive', price: 2799, mrp: 3799, colors: ['rani', 'mustard', 'emerald'], pattern: 'floral', isBestseller: true, blurb: 'Vibrant phulkari dupatta over a cotton kurta with a full patiala salwar.' },
-  { name: 'Harleen Striped Patiala', category: 'patiala', fabric: 'Cotton', occasion: 'Casual', price: 1399, mrp: 1899, colors: ['rust', 'navy', 'teal'], pattern: 'stripes', blurb: 'Classic striped short kurta with a voluminous patiala — pure joy.' },
-  { name: 'Jasleen Silk Patiala Set', category: 'patiala', fabric: 'Silk', occasion: 'Wedding', price: 4599, mrp: 5999, colors: ['maroon', 'wine'], pattern: 'paisley', isNew: true, blurb: 'Silk patiala with tilla embroidery and a tasselled dupatta.' },
-
-  { name: 'Ayesha Lawn Unstitched Suit', category: 'unstitched', fabric: 'Cotton', occasion: 'Casual', price: 1299, mrp: 1799, colors: ['mint', 'powder', 'peach'], pattern: 'floral', isBestseller: true, blurb: '3-piece printed lawn: 2.5m shirt, 2.5m bottom and 2.5m chiffon dupatta.' },
-  { name: 'Mehrunissa Embroidered Unstitched', category: 'unstitched', fabric: 'Georgette', occasion: 'Festive', price: 3299, mrp: 4499, colors: ['wine', 'emerald', 'navy'], pattern: 'paisley', blurb: 'Embroidered georgette front panel, sleeves and border lace — tailor to taste.' },
-  { name: 'Zainab Chanderi Unstitched', category: 'unstitched', fabric: 'Chanderi', occasion: 'Office', price: 1999, mrp: 2699, colors: ['ivory', 'lavender', 'olive'], pattern: 'booti', isNew: true, blurb: 'Chanderi with woven booti, santoon bottom and a matching dupatta.' },
-
-];
+// Demo placeholder products were removed on 2026-11-09 (see git history if you ever want them back).
 
 const SIZES_STITCHED: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
@@ -102,8 +67,7 @@ function rng(seed: number) {
   };
 }
 
-// Demo first, then real products, so existing product ids (p001…) stay stable.
-const BUILT: Product[] = [...DEMO, ...CATALOGUE].map((s, i) => {
+const BUILT: Product[] = CATALOGUE.map((s, i) => {
   const r = rng(i + 1);
   const isUnstitched = s.category === 'unstitched';
   const day = 1 + Math.floor(r() * 27);

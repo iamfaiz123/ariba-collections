@@ -1,7 +1,7 @@
 import type { Coupon } from '@/types';
 
 export const COUPONS: Coupon[] = [
-  { code: 'ARIBA10', description: '10% off on your order', type: 'percent', value: 10, minSubtotal: 0 },
+  { code: 'ARIBAS10', description: '10% off on your order', type: 'percent', value: 10, minSubtotal: 0 },
   { code: 'FESTIVE500', description: '₹500 off on orders above ₹4,999', type: 'flat', value: 500, minSubtotal: 4999 },
   { code: 'WELCOME15', description: '15% off orders above ₹2,999', type: 'percent', value: 15, minSubtotal: 2999 },
 ];

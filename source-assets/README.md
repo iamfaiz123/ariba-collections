@@ -10,6 +10,8 @@ This folder is git-ignored: keep a backup of it (Google Drive, iCloud) — it is
 | `posters/new-collection-sofa.jpeg` | "New Collection" poster, seated | `public/media/new-collection-1.jpg` |
 | `posters/new-collection-standing.jpeg` | "New Collection" poster, standing | not used right now |
 | `posters/effortless-elegance.jpg` | "Effortless Elegance" poster (pink suit) | `public/media/effortless-elegance.jpg` |
+| `posters/our-story-market.jpg` | Sepia market-street photo for Our Story | `public/media/our-story.jpg` |
+| `logo/` | Logo exports of the favicon "A" (PNG 512/1024) | — |
 | `products/<slug>/` | Original product photos and videos | `public/products/<slug>/` |
 
 ## Adding a new product

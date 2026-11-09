@@ -14,7 +14,7 @@ import { abs, getSeo, indexableRoutes, isRealProduct, prerenderRoutes, SITE_URL 
 const e = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const rupees = (n: number) => `₹${n.toLocaleString('en-IN')}`;
 const nav = () =>
-  `<nav aria-label="Collections"><a href="/">Ariba Collections</a> · <a href="/shop">Shop all</a> · ${CATEGORIES.map((c) => `<a href="/collections/${c.slug}">${e(c.name)}</a>`).join(' · ')} · <a href="/about">Our story</a> · <a href="/faq">FAQs</a> · <a href="/contact">Contact</a></nav>`;
+  `<nav aria-label="Collections"><a href="/">Aribas</a> · <a href="/shop">Shop all</a> · ${CATEGORIES.map((c) => `<a href="/collections/${c.slug}">${e(c.name)}</a>`).join(' · ')} · <a href="/about">Our story</a> · <a href="/faq">FAQs</a> · <a href="/contact">Contact</a></nav>`;
 const card = (p: Product) =>
   `<li><a href="/product/${p.slug}">${p.images?.[0] ? `<img src="${p.images[0]}" alt="${e(p.name)}" width="300" height="400" loading="lazy" />` : ''}${e(p.name)}</a> ${rupees(p.price)}</li>`;
 const listing = (items: Product[]) => (items.length ? `<ul>${items.map(card).join('')}</ul>` : '');
@@ -22,7 +22,7 @@ const featured = () => PRODUCTS.filter(isRealProduct);
 
 function body(path: string): string {
   if (path === '/') {
-    return `<h1>Ariba Collections: designer ladies suits online in India</h1>
+    return `<h1>Aribas: designer ladies suits online in India</h1>
 <p>Handcrafted Anarkali, sharara, straight, palazzo and Patiala suits, in our own designs, with handmade detailing and quality tailoring, delivered across India. Free shipping above ₹1,999, cash on delivery and easy 7-day returns.</p>
 <h2>Shop by style</h2><ul>${CATEGORIES.map((c) => `<li><a href="/collections/${c.slug}">${e(c.name)}</a>: ${e(c.tagline)}</li>`).join('')}</ul>
 <h2>Featured</h2>${listing(featured())}`;
@@ -49,7 +49,7 @@ ${(p.images ?? []).map((src) => `<img src="${src}" alt="${e(`${p.name} in ${p.co
 <p>Includes: ${e(p.includes.join(', '))}. Care: ${e(p.care.join('; '))}.</p>`;
   }
   if (path === '/faq') return `<h1>Help &amp; FAQs</h1>${FAQS.map((f) => `<h2>${e(f.q)}</h2><p>${e(f.a)}</p>`).join('')}`;
-  if (path === '/about') return `<h1>Our story</h1><p>Every beautiful outfit begins with an idea. In 2023 we noticed women were buying kurtis with machine-made designs and ordinary prints, and finding something truly special was becoming difficult. So Ariba began: kurtis with thoughtfully designed patterns, handmade detailing and quality tailoring, brought to life by our own skilled tailors. We have since sold thousands of kurtis, and today we are expanding to bring our designs to even more women.</p><p>Beautiful clothing shouldn’t just look good. It should make you feel beautiful.</p>`;
+  if (path === '/about') return `<h1>Our story</h1><p>Every beautiful outfit begins with an idea. In 2023 we noticed women were buying kurtis with machine-made designs and ordinary prints, and finding something truly special was becoming difficult. So Aribas began: kurtis with thoughtfully designed patterns, handmade detailing and quality tailoring, brought to life by our own skilled tailors. We have since sold thousands of kurtis, and today we are expanding to bring our designs to even more women.</p><p>Beautiful clothing shouldn’t just look good. It should make you feel beautiful.</p>`;
   if (path === '/contact') return `<h1>Contact us</h1><p>Questions about sizing, orders, delivery or returns? Write to us and we reply within one working day.</p>`;
   return '';
 }

@@ -35,10 +35,12 @@ export default function Cart() {
           </aside>
         </div>
       )}
-      <section className="mt-24">
-        <SectionHeading pre="You might" title="Also love" />
-        <ProductGrid products={suggestions.data} loading={suggestions.loading} count={4} />
-      </section>
+      {(suggestions.loading || !!suggestions.data?.length) && (
+        <section className="mt-24">
+          <SectionHeading pre="You might" title="Also love" />
+          <ProductGrid products={suggestions.data} loading={suggestions.loading} count={4} />
+        </section>
+      )}
     </div>
   );
 }

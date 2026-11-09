@@ -13,7 +13,7 @@ import { PRODUCTS } from '@/data/products';
 import type { Category, Product } from '@/types';
 
 export const SITE_URL = ((import.meta.env.VITE_SITE_URL as string | undefined) || 'https://ariba-collections.onrender.com').replace(/\/$/, '');
-export const BRAND = 'Ariba Collections';
+export const BRAND = 'Aribas';
 export const DEFAULT_IMAGE = '/og-image.jpg';
 export const DEFAULT_DESCRIPTION =
   'Shop designer ladies suits online in India: Anarkali, sharara, straight, palazzo and Patiala suits with handcrafted embroidery. Free shipping above ₹1,999, COD available and easy 7-day returns.';
@@ -48,7 +48,7 @@ const organization: JsonLd = {
   '@type': 'Organization',
   '@id': `${SITE_URL}/#organization`,
   name: BRAND,
-  alternateName: 'Ariba',
+  alternateName: ['Ariba', 'Ariba Collections'],
   url: `${SITE_URL}/`,
   logo: abs('/favicon.svg'),
   description: DEFAULT_DESCRIPTION,
@@ -147,7 +147,7 @@ const base = (over: Partial<Seo> & Pick<Seo, 'title'>): Seo => ({
   description: DEFAULT_DESCRIPTION,
   canonical: null,
   image: DEFAULT_IMAGE,
-  imageAlt: 'Ariba Collections: handcrafted ladies suits',
+  imageAlt: 'Aribas: handcrafted ladies suits',
   type: 'website',
   noindex: false,
   jsonLd: [],
@@ -173,7 +173,7 @@ export function getSeo(pathname: string, search = ''): Seo {
     const filtered = !!term || [...q.keys()].some((k) => k !== 'page' && k !== 'sort');
     return base({
       title: term ? `Search: ${term} | ${BRAND}` : `Shop All Ladies Suits Online in India | ${BRAND}`,
-      description: 'Browse all Ariba ladies suits: Anarkali, straight, sharara, palazzo, Patiala and unstitched suits. Filter by fabric, occasion, size, colour and price. Delivery across India.',
+      description: 'Browse all Aribas ladies suits: Anarkali, straight, sharara, palazzo, Patiala and unstitched suits. Filter by fabric, occasion, size, colour and price. Delivery across India.',
       canonical: filtered ? (cats.length === 1 ? `/collections/${cats[0]}` : null) : '/shop',
       noindex: filtered,
       jsonLd: graph(breadcrumbs([['Home', '/'], ['Shop', '/shop']])),
@@ -236,7 +236,7 @@ export function getSeo(pathname: string, search = ''): Seo {
   if (path === '/about') {
     return base({
       title: `Our Story: Thoughtfully Designed Kurtis Since 2023 | ${BRAND}`,
-      description: 'Ariba began in 2023 to bring women kurtis with our own designs, handmade detailing and quality tailoring by our own skilled tailors. Thousands of kurtis sold, and growing.',
+      description: 'Aribas began in 2023 to bring women kurtis with our own designs, handmade detailing and quality tailoring by our own skilled tailors. Thousands of kurtis sold, and growing.',
       canonical: '/about',
       type: 'article',
       jsonLd: graph(breadcrumbs([['Home', '/'], ['Our Story', '/about']]), { '@type': 'AboutPage', url: abs('/about'), about: { '@id': `${SITE_URL}/#organization` } }),
@@ -246,7 +246,7 @@ export function getSeo(pathname: string, search = ''): Seo {
   if (path === '/contact') {
     return base({
       title: `Contact Us | ${BRAND}`,
-      description: 'Questions about sizing, orders, delivery or returns? Contact the Ariba Collections team: we reply within one working day.',
+      description: 'Questions about sizing, orders, delivery or returns? Contact the Aribas team: we reply within one working day.',
       canonical: '/contact',
       jsonLd: graph(breadcrumbs([['Home', '/'], ['Contact', '/contact']]), { '@type': 'ContactPage', url: abs('/contact') }),
     });
@@ -255,7 +255,7 @@ export function getSeo(pathname: string, search = ''): Seo {
   if (path === '/faq') {
     return base({
       title: `FAQs: Shipping, Returns, Sizing & COD | ${BRAND}`,
-      description: `Answers on delivery times across India, free shipping above ${rupees(SHIPPING.freeAbove)}, cash on delivery, 7-day returns, sizing and fabric care for Ariba suits.`,
+      description: `Answers on delivery times across India, free shipping above ${rupees(SHIPPING.freeAbove)}, cash on delivery, 7-day returns, sizing and fabric care for Aribas suits.`,
       canonical: '/faq',
       jsonLd: graph(breadcrumbs([['Home', '/'], ['FAQs', '/faq']]), {
         '@type': 'FAQPage',

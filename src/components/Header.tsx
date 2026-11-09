@@ -7,7 +7,7 @@ import { Icon } from './Icon';
 import { Logo } from './Logo';
 import { ProductArt } from './ProductArt';
 
-const ANNOUNCEMENTS = ['Free shipping on orders above ₹1,999', 'Use code ARIBA10 for 10% off your first order', 'Easy 7-day returns & exchanges'];
+const ANNOUNCEMENTS = ['Free shipping on orders above ₹1,999', 'Use code ARIBAS10 for 10% off your first order', 'Easy 7-day returns & exchanges'];
 
 export function Header() {
   const count = useCart((s) => cartCount(s.items));

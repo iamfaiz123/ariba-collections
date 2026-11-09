@@ -33,7 +33,7 @@ function AuthForms() {
     try {
       const u = mode === 'login' ? await login(form.email, form.password) : await register(form.name.trim(), form.email, form.password);
       setUser(u);
-      toast(mode === 'login' ? `Welcome back, ${u.name.split(' ')[0]}` : 'Account created — welcome to Ariba!');
+      toast(mode === 'login' ? `Welcome back, ${u.name.split(' ')[0]}` : 'Account created — welcome to Aribas!');
       const next = params.get('next');
       if (next?.startsWith('/')) navigate(next);
     } catch (err) {

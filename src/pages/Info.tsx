@@ -14,16 +14,16 @@ export function About() {
     <div className="container-x py-12">
       <Heading as="h1" pre="Our" title="Story" size="xl" />
       <div className="mt-12 grid items-center gap-12 lg:grid-cols-2">
-        <Media image={MEDIA.story.image} className="aspect-[4/5] rounded-xl" />
+        <Media image={MEDIA.story.image} alt={MEDIA.story.alt} className="aspect-[4/5] rounded-xl" />
         <div className="space-y-5 text-[15px] leading-relaxed text-ink-600">
           <p className="font-serif text-3xl italic leading-snug text-brand">Every beautiful outfit begins with an idea. Ours began with a simple observation.</p>
           <p>In 2023, we noticed something missing in the market. Many women were buying kurtis with machine-made designs and ordinary prints, but finding something that felt truly special was becoming difficult.</p>
           <p>We believed there was a better way.</p>
-          <p>That’s how Ariba began, with a vision to create beautiful kurtis featuring thoughtfully designed patterns, handmade detailing and quality tailoring. Instead of simply selling what was already available, we decided to create our own designs and bring them to life with our own skilled tailors.</p>
+          <p>That’s how Aribas began, with a vision to create beautiful kurtis featuring thoughtfully designed patterns, handmade detailing and quality tailoring. Instead of simply selling what was already available, we decided to create our own designs and bring them to life with our own skilled tailors.</p>
           <p>What started as a small initiative has grown into something we’re incredibly proud of. Over the years, we’ve sold thousands of kurtis and earned the trust of customers who appreciate the beauty of thoughtfully made clothing.</p>
-          <p>Today, we’re taking the next step by expanding Ariba and bringing our designs to even more women.</p>
+          <p>Today, we’re taking the next step by expanding Aribas and bringing our designs to even more women.</p>
           <p className="font-medium text-ink">Our belief remains the same: beautiful clothing shouldn’t just look good. It should make you feel beautiful.</p>
-          <p className="font-serif text-2xl italic text-brand">Welcome to Ariba. ❤️</p>
+          <p className="font-serif text-2xl italic text-brand">Welcome to Aribas. ❤️</p>
           <ExploreLink to="/shop">Explore the collection</ExploreLink>
         </div>
       </div>

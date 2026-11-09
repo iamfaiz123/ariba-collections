@@ -4,7 +4,7 @@ import { Icon } from '@/components/Icon';
 import { ProductGrid } from '@/components/ProductCard';
 import { Breadcrumbs, EmptyState, Heading } from '@/components/ui';
 import { CATEGORIES, categoryBySlug } from '@/data/categories';
-import { ALL_COLORS, ALL_SIZES, FABRICS, OCCASIONS } from '@/data/products';
+import { ALL_COLORS, ALL_SIZES, FABRICS, OCCASIONS, PRODUCTS } from '@/data/products';
 import { useAsync } from '@/hooks/useAsync';
 import { getProducts } from '@/services/api';
 import type { CategorySlug, Fabric, Occasion, ProductFilters, Size, SortKey } from '@/types';
@@ -200,7 +200,9 @@ export default function Shop() {
             </div>
           )}
 
-          {!loading && data?.items.length === 0 ? (
+          {PRODUCTS.length === 0 ? (
+            <EmptyState icon="bag" title="New styles are on their way" body="Our next collection is being finished by our tailors right now. Follow us on Instagram to see it first." action={<Link to="/about" className="btn-primary">Read our story</Link>} />
+          ) : !loading && data?.items.length === 0 ? (
             <EmptyState icon="search" title="No styles found" body="Try removing a filter or searching for something else." action={<button onClick={clearAll} className="btn-primary">Clear filters</button>} />
           ) : (
             <ProductGrid products={data?.items} loading={loading} count={6} />

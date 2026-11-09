@@ -1,6 +1,6 @@
-# Ariba Collections: storefront (frontend, phase 1)
+# Aribas: storefront (frontend, phase 1)
 
-An e-commerce frontend for Ariba's kurtis and ladies suits, built with React 18, TypeScript, Vite, Tailwind and Zustand. Every feature works today against a **mock API** that saves data in the browser (localStorage), so the real backend can be added in phase 2 without touching the UI.
+An e-commerce frontend for Aribas kurtis and ladies suits, built with React 18, TypeScript, Vite, Tailwind and Zustand. Every feature works today against a **mock API** that saves data in the browser (localStorage), so the real backend can be added in phase 2 without touching the UI.
 
 ```bash
 npm install
@@ -16,7 +16,7 @@ npm run preview    # serve dist/ locally, as Render does
 ```
 src/
   data/catalogue.ts    ← YOUR REAL PRODUCTS (add new ones here)
-  data/products.ts     ← colour palette, demo placeholder products, derived fields
+  data/products.ts     ← colour palette and derived product fields
   data/media.ts        ← site-wide media: hero film, new-collection posters, banner/footer slots
   data/categories.ts   ← collections (Anarkali, Straight…) with their SEO intro text
   data/content.ts      ← coupons, shipping rules, FAQs, size chart, Indian states
@@ -50,7 +50,7 @@ docs/VIDEO_PROMPTS.md  ← AI video prompts for your clothing photos
 2. Compress them into `public/products/<slug>/` (`1.jpg`, `2.jpg`…, `video.mp4`); see the ffmpeg commands in `docs/VIDEO_PROMPTS.md`.
 3. Add an entry to `src/data/catalogue.ts`.
 
-A product with photos is automatically listed first in the shop, added to the sitemap and given Google product data. The 24 **demo** products in `products.ts` are drawn placeholders, hidden from Google; delete them once there are enough real ones.
+A product with photos is automatically added to the shop and sitemap and given Google product data. **The shop is empty for now:** the demo placeholders were removed, and the Zumrud suit is parked in `ON_HOLD` in `catalogue.ts`; move it into `CATALOGUE` to bring it back. While the shop is empty, the home page hides its product sections and the shop shows a "new styles are on their way" message.
 
 ## SEO
 
