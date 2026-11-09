@@ -2,13 +2,11 @@ import { Link, useParams } from 'react-router-dom';
 import { Icon } from '@/components/Icon';
 import { EmptyState, Heading, Skeleton } from '@/components/ui';
 import { useAsync } from '@/hooks/useAsync';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { getOrder } from '@/services/api';
 import { deliveryEstimate, formatDate, inr } from '@/utils/format';
 
 export default function OrderConfirmation() {
   const { id = '' } = useParams();
-  useDocumentTitle('Order confirmed');
   const { data: order, loading } = useAsync(() => getOrder(id), [id]);
 
   if (loading) return <div className="container-x max-w-2xl py-16"><Skeleton className="h-64" /></div>;

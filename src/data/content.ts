@@ -13,12 +13,6 @@ export const SHIPPING = {
   codFee: 49,
 };
 
-export const TESTIMONIALS = [
-  { name: 'Sana Ahmed', city: 'Hyderabad', text: 'The sharara set I ordered for my sister’s mehendi was breathtaking. The mirror work is so fine — it looks far pricier than it is.' },
-  { name: 'Ritika Jain', city: 'Jaipur', text: 'I live in their chikankari straight suits for work. Soft, breathable, and the fit is always consistent.' },
-  { name: 'Mariam Zaidi', city: 'Lucknow', text: 'Beautiful packaging, quick delivery and the most helpful support team. Ariba is my go-to now.' },
-];
-
 export const FAQS = [
   { q: 'How do I choose the right size?', a: 'Every product page has a size chart. Measure your bust, waist and hip and pick the size that fits your largest measurement. Our kurtas include 1.5–2" of seam allowance for alterations.' },
   { q: 'How long does delivery take?', a: 'Standard delivery takes 4–7 business days across India. Express delivery takes 1–3 business days in metro cities.' },

@@ -5,12 +5,10 @@ import { CouponBox, TotalsTable } from '@/components/OrderSummary';
 import { ProductGrid } from '@/components/ProductCard';
 import { EmptyState, Heading, SectionHeading } from '@/components/ui';
 import { useAsync } from '@/hooks/useAsync';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { getFeatured } from '@/services/api';
 import { cartCount, useCart } from '@/store';
 
 export default function Cart() {
-  useDocumentTitle('Your bag');
   const items = useCart((s) => s.items);
   const suggestions = useAsync(() => getFeatured('bestseller', 4), []);
 

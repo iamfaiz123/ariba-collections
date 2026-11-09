@@ -91,7 +91,7 @@ export function ProductCard({ product, tall }: { product: Product; tall?: boolea
               title={c.name}
             />
           ))}
-          <span className="ml-auto text-[11px] text-ink-400">★ {product.rating} · {product.reviewCount}</span>
+          {product.reviewCount > 0 && <span className="ml-auto text-[11px] text-ink-400">★ {product.rating.toFixed(1)} · {product.reviewCount}</span>}
         </div>
       </div>
     </article>

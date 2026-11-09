@@ -26,7 +26,7 @@ export function MobileMenu() {
           <ul className="divide-y divide-ink/5">
             {CATEGORIES.map((c) => (
               <li key={c.slug}>
-                <Link to={`/shop?category=${c.slug}`} className="flex items-center justify-between py-3.5 font-display text-xl uppercase text-brand">
+                <Link to={`/collections/${c.slug}`} className="flex items-center justify-between py-3.5 font-display text-xl uppercase text-brand">
                   {c.name} <Icon name="chevronRight" size={16} className="text-ink-400" />
                 </Link>
               </li>

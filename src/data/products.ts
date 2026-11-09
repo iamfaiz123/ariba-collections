@@ -1,5 +1,5 @@
-import { PRODUCT_MEDIA } from './media';
-import type { CategorySlug, ColorOption, Fabric, Occasion, Pattern, Product, ProductArt, Review, Size } from '@/types';
+import { CATALOGUE } from './catalogue';
+import type { CategorySlug, ColorOption, Fabric, Occasion, Pattern, Product, ProductArt, Size } from '@/types';
 
 export const PALETTE: Record<string, ColorOption> = {
   maroon: { name: 'Maroon', hex: '#7A1F3D', accent: '#D9B677' },
@@ -18,9 +18,11 @@ export const PALETTE: Record<string, ColorOption> = {
   wine: { name: 'Wine', hex: '#5A1530', accent: '#E6C17A' },
   peach: { name: 'Peach', hex: '#F2B48F', accent: '#8C3F2A' },
   olive: { name: 'Olive', hex: '#6B6B2E', accent: '#F0DFA8' },
+  bottle: { name: 'Bottle Green', hex: '#1F3A2E', accent: '#E8B49A' },
 };
 
-interface Seed {
+/** One product as you write it. Everything else (id, slug, sizes, care…) is derived. */
+export interface ProductEntry {
   name: string;
   category: CategorySlug;
   fabric: Fabric;
@@ -33,9 +35,17 @@ interface Seed {
   isBestseller?: boolean;
   stock?: number;
   blurb: string;
+  /** Photo paths under /products/<slug>/. The first is the card image. Real products must have at least one. */
+  images?: string[];
+  /** Optional video, shown first in the product gallery. */
+  video?: string;
 }
 
-const SEEDS: Seed[] = [
+/**
+ * DEMO products: drawn placeholders so the shop doesn't look empty. They are hidden from Google
+ * (see src/seo) and can be deleted once there are enough real products in catalogue.ts.
+ */
+const DEMO: ProductEntry[] = [
   { name: 'Mehr Zari Anarkali', category: 'anarkali', fabric: 'Georgette', occasion: 'Wedding', price: 6499, mrp: 8999, colors: ['maroon', 'wine', 'emerald'], pattern: 'paisley', isBestseller: true, blurb: 'A floor-grazing georgette Anarkali with zari paisley work cascading across a 24-kali flare.' },
   { name: 'Noor Gota Patti Anarkali', category: 'anarkali', fabric: 'Chanderi', occasion: 'Festive', price: 4299, mrp: 5799, colors: ['rani', 'mustard'], pattern: 'booti', isNew: true, blurb: 'Light chanderi with hand-applied gota patti booti and a scalloped dupatta.' },
   { name: 'Gulnaar Velvet Anarkali', category: 'anarkali', fabric: 'Velvet', occasion: 'Wedding', price: 8999, mrp: 11999, colors: ['wine', 'navy', 'black'], pattern: 'floral', stock: 4, blurb: 'Plush micro-velvet with dabka & sequin florals — made for winter weddings.' },
@@ -65,6 +75,7 @@ const SEEDS: Seed[] = [
   { name: 'Ayesha Lawn Unstitched Suit', category: 'unstitched', fabric: 'Cotton', occasion: 'Casual', price: 1299, mrp: 1799, colors: ['mint', 'powder', 'peach'], pattern: 'floral', isBestseller: true, blurb: '3-piece printed lawn: 2.5m shirt, 2.5m bottom and 2.5m chiffon dupatta.' },
   { name: 'Mehrunissa Embroidered Unstitched', category: 'unstitched', fabric: 'Georgette', occasion: 'Festive', price: 3299, mrp: 4499, colors: ['wine', 'emerald', 'navy'], pattern: 'paisley', blurb: 'Embroidered georgette front panel, sleeves and border lace — tailor to taste.' },
   { name: 'Zainab Chanderi Unstitched', category: 'unstitched', fabric: 'Chanderi', occasion: 'Office', price: 1999, mrp: 2699, colors: ['ivory', 'lavender', 'olive'], pattern: 'booti', isNew: true, blurb: 'Chanderi with woven booti, santoon bottom and a matching dupatta.' },
+
 ];
 
 const SIZES_STITCHED: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -77,16 +88,6 @@ const ART_BY_CATEGORY: Record<CategorySlug, Omit<ProductArt, 'pattern'>> = {
   patiala: { silhouette: 'straight', bottom: 'patiala' },
   unstitched: { silhouette: 'straight', bottom: 'pant' },
 };
-
-const REVIEWERS = ['Ananya S.', 'Fatima K.', 'Priya M.', 'Neha R.', 'Sana A.', 'Ritika J.', 'Mariam Z.', 'Kavya P.', 'Heena T.', 'Pooja D.'];
-const REVIEW_TEXT: [string, string][] = [
-  ['Absolutely stunning', 'The fabric quality exceeded my expectations and the colour is exactly as shown. Got so many compliments!'],
-  ['Perfect fit', 'Ordered my usual size and it fits beautifully. The stitching is neat and the dupatta is gorgeous.'],
-  ['Worth every rupee', 'Elegant, comfortable and well finished. Delivery was quick and packaging was lovely.'],
-  ['Lovely but runs slightly large', 'Beautiful work. I would suggest going one size down if you are between sizes.'],
-  ['My new favourite', 'Wore it for a family function and felt like a queen. Will definitely order again.'],
-  ['Good quality', 'Soft fabric, rich colour. The embroidery is delicate and well done.'],
-];
 
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
@@ -101,29 +102,10 @@ function rng(seed: number) {
   };
 }
 
-function buildReviews(i: number, count: number): Review[] {
-  const r = rng(i * 97 + 13);
-  return Array.from({ length: count }, (_, k) => {
-    const [title, body] = REVIEW_TEXT[Math.floor(r() * REVIEW_TEXT.length)];
-    const day = 1 + Math.floor(r() * 27);
-    const month = 1 + Math.floor(r() * 10);
-    return {
-      id: `r${i}-${k}`,
-      author: REVIEWERS[Math.floor(r() * REVIEWERS.length)],
-      rating: r() > 0.25 ? 5 : 4,
-      title,
-      body,
-      date: `2026-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
-    };
-  });
-}
-
-export const PRODUCTS: Product[] = SEEDS.map((s, i) => {
+// Demo first, then real products, so existing product ids (p001…) stay stable.
+const BUILT: Product[] = [...DEMO, ...CATALOGUE].map((s, i) => {
   const r = rng(i + 1);
   const isUnstitched = s.category === 'unstitched';
-  const reviewCount = 8 + Math.floor(r() * 180);
-  const reviews = buildReviews(i, 3 + Math.floor(r() * 3));
-  const rating = Math.round((4 + r() * 0.9) * 10) / 10;
   const day = 1 + Math.floor(r() * 27);
   const month = s.isNew ? 10 : 1 + Math.floor(r() * 8);
   return {
@@ -135,8 +117,9 @@ export const PRODUCTS: Product[] = SEEDS.map((s, i) => {
     occasion: s.occasion,
     price: s.price,
     mrp: s.mrp,
-    rating: Math.min(rating, 4.9),
-    reviewCount,
+    // Real customer reviews only: these stay empty until the reviews service supplies them.
+    rating: 0,
+    reviewCount: 0,
     colors: s.colors.map((c) => PALETTE[c]),
     sizes: isUnstitched ? ['Free'] : SIZES_STITCHED,
     stock: s.stock ?? 10 + Math.floor(r() * 40),
@@ -152,11 +135,15 @@ export const PRODUCTS: Product[] = SEEDS.map((s, i) => {
     includes: isUnstitched ? ['Shirt fabric', 'Bottom fabric', 'Dupatta'] : ['Kurta', s.category === 'sharara' ? 'Sharara' : s.category === 'palazzo' ? 'Palazzo' : s.category === 'patiala' ? 'Patiala salwar' : 'Pants', 'Dupatta'],
     care: s.fabric === 'Velvet' || s.fabric === 'Silk' || s.fabric === 'Organza' ? ['Dry clean only', 'Store in a muslin bag', 'Iron on reverse, low heat'] : ['Gentle hand wash in cold water', 'Wash dark colours separately', 'Dry in shade'],
     art: { pattern: s.pattern, ...ART_BY_CATEGORY[s.category] },
-    ...PRODUCT_MEDIA[slugify(s.name)],
-    reviews,
+    images: s.images,
+    video: s.video,
+    reviews: [],
     createdAt: `2026-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
   };
 });
+
+/** Products with real photos are listed first (stable sort keeps the rest in order). */
+export const PRODUCTS: Product[] = [...BUILT].sort((a, b) => Number(!!b.images?.length) - Number(!!a.images?.length));
 
 export const FABRICS: Fabric[] = ['Cotton', 'Georgette', 'Silk', 'Chanderi', 'Rayon', 'Muslin', 'Organza', 'Velvet'];
 export const OCCASIONS: Occasion[] = ['Casual', 'Festive', 'Wedding', 'Office', 'Party'];

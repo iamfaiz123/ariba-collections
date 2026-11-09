@@ -38,9 +38,9 @@ The big **ARIBA** wordmark sits over the top 40% of this video, so the top must 
 
 ---
 
-## 2. Campaign hero, "The festive edit is here" → `public/media/hero-title.mp4` (16:9)
+## 2. Campaign film (optional: Instagram Reels, ads, or a future home-page slot)
 
-The white headline sits top-left and a glass testimonial card sits bottom-right, so keep the subject centred or slightly right.
+The home page's second panel currently shows still posters (`MEDIA.newCollection` in `src/data/media.ts`); a tile there can also be a video.
 
 > Editorial fashion campaign film. The model from the reference image walks slowly towards the camera through a field of tall golden grass and red poppies, wearing the exact Anarkali / suit from the reference. Pink smoky clouds rise softly behind her. The dupatta trails and floats in the wind and the flared hem swirls with each step. Camera: slow dolly backward at waist height, 35mm lens, shallow depth of field. Warm, soft, dreamy pastel grade with luxurious Indian festive mood. Subject centred, with empty space at top-left.
 
@@ -118,11 +118,11 @@ ffmpeg -i input.mp4 -an -vf "scale=1080:-2,fps=24" -c:v libx264 -crf 26 -preset 
 | Slot | File |
 |---|---|
 | Wordmark hero | `public/media/hero.mp4` + `hero.jpg` |
-| Campaign hero | `public/media/hero-title.mp4` + `hero-title.jpg` |
+| New collection posters (home panel 2) | `public/media/*.jpg`, listed in `MEDIA.newCollection` |
 | Manifesto banner | `public/media/banner.mp4` or `banner.jpg` |
 | Footer | `public/media/footer.mp4` + `footer.jpg` |
 | Our story page | `public/media/story.jpg` |
 | Best-product spotlight | `public/media/spotlight.png` (transparent) |
-| Product photos/video | `public/products/<slug>/1.jpg, 2.jpg… , video.mp4`, then register them in `src/data/media.ts` → `PRODUCT_MEDIA` |
+| Product photos/video | `public/products/<slug>/1.jpg, 2.jpg… , video.mp4`, listed on the product in `src/data/catalogue.ts` |
 
-After adding a file, set its path in `src/data/media.ts` (`MEDIA` for site-wide slots, `PRODUCT_MEDIA` for products). A missing file shows the painted placeholder instead, so the layout never breaks.
+After adding a file, set its path in `src/data/media.ts` (site-wide slots) or on the product in `src/data/catalogue.ts`. Keep full-size originals in `source-assets/`. A missing file shows the painted placeholder instead, so the layout never breaks.

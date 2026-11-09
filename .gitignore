@@ -5,6 +5,6 @@ dist
 *.tsbuildinfo
 .env
 .env.*
-# Source/reference videos (the site uses the optimised copies in public/media)
-/website.mp4
-/gemini_generated_video_*.mp4
+# Full-size originals; the site uses the compressed copies in public/ (see source-assets/README.md)
+/source-assets/*
+!/source-assets/README.md

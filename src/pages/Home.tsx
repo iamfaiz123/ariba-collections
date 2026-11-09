@@ -6,11 +6,9 @@ import { ProductArt } from '@/components/ProductArt';
 import { ProductCard, ProductCardSkeleton, ProductGrid } from '@/components/ProductCard';
 import { ExploreLink, Heading, SectionHeading } from '@/components/ui';
 import { CATEGORIES } from '@/data/categories';
-import { TESTIMONIALS } from '@/data/content';
 import { MEDIA } from '@/data/media';
 import { PRODUCTS } from '@/data/products';
 import { useAsync } from '@/hooks/useAsync';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { getFeatured } from '@/services/api';
 import type { Category } from '@/types';
 import { inr } from '@/utils/format';
@@ -22,10 +20,10 @@ const catArt = (c: Category) => ({
 });
 
 const STATS = [
-  ['12+', 'Years of crafting suits with artisans in Lucknow and Jaipur. We don’t copy trends — we keep traditions alive.'],
-  ['50K', 'Women across India trust Ariba for quality fabric and a fit that feels made for them.'],
-  ['2L+', 'Suits delivered to doorsteps, every piece hand-checked before it leaves our studio.'],
-  ['68%', 'Of our customers come back for another — the truest proof of our craft and care.'],
+  ['2023', 'The year Ariba began, with our own designs instead of what was already on the shelf.'],
+  ['1000s', 'Of kurtis sold to women who appreciate thoughtfully made clothing.'],
+  ['100%', 'Our own designs. Every pattern is created by us, never copied from the market.'],
+  ['In-house', 'Tailoring by our own skilled tailors, with handmade detailing on every piece.'],
 ];
 
 const FEATURES: { icon: IconName; title: string; body: string }[] = [
@@ -36,7 +34,6 @@ const FEATURES: { icon: IconName; title: string; body: string }[] = [
 ];
 
 export default function Home() {
-  useDocumentTitle('');
   const featured = useAsync(() => getFeatured('new', 4), []);
   const best = useAsync(() => getFeatured('bestseller', 3), []);
   const spotlight = PRODUCTS[0];
@@ -46,22 +43,8 @@ export default function Home() {
       {/* 1 — Brand film hero */}
       <HeroFilm />
 
-      {/* 2 — Campaign hero */}
-      <section className="px-0 sm:px-6">
-        <Media {...MEDIA.heroTitle} className="h-[80vh] min-h-[540px] sm:rounded-[4px]"
-          fallback={<CampaignFallback />}>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/5 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-          <div className="relative flex h-full flex-col justify-between p-6 sm:p-10">
-            <div>
-              <h2 className="font-display text-[13vw] font-bold leading-[.85] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,.25)] sm:text-[7vw] xl:text-[100px]">The festive<br />edit is here</h2>
-              <p className="mt-5 max-w-[17rem] text-sm leading-relaxed text-white drop-shadow">Anarkalis, shararas and everyday suits, hand-embroidered by 320 artisans — made to be photographed, remembered and passed down.</p>
-              <Link to="/shop?occasion=Festive" className="btn-gold mt-6">Shop festive <Icon name="arrowUpRight" size={16} /></Link>
-            </div>
-            <TestimonialCard />
-          </div>
-        </Media>
-      </section>
+      {/* 2 — New collection: posters either side of the film */}
+      <NewCollection />
 
       {/* 3 — Featured products */}
       <section className="container-x pt-24">
@@ -78,7 +61,7 @@ export default function Home() {
               We don’t <span className="text-outline">chase</span> trends
               <br />— we <span className="text-outline">weave</span> traditions.
             </p>
-            <p className="mt-5 max-w-md text-sm text-ink-600">Every Ariba suit begins as hand-drawn motifs and ends in the hands of a karigar whose family has embroidered for generations.</p>
+            <p className="mt-5 max-w-md text-sm text-ink-600">Every Ariba piece begins as our own design and is brought to life with handmade detailing by our own skilled tailors.</p>
             <div className="mt-6"><ExploreLink to="/about">Our story</ExploreLink></div>
           </div>
         </div>
@@ -123,8 +106,8 @@ export default function Home() {
             <FeatureCard {...FEATURES[2]} className="lg:mr-6" />
           </div>
           <Link to={`/product/${spotlight.slug}`} className="group order-first mx-auto block w-full max-w-sm lg:order-none">
-            <div className="aspect-[3/4] drop-shadow-2xl transition duration-700 group-hover:-translate-y-2">
-              <Media image={MEDIA.spotlight.image} className="h-full w-full" fallback={<ProductArt art={spotlight.art} color={spotlight.colors[0].hex} accent={spotlight.colors[0].accent} bare alt={spotlight.name} />} />
+            <div className={`aspect-[3/4] drop-shadow-2xl transition duration-700 group-hover:-translate-y-2 ${!MEDIA.spotlight.image && spotlight.images?.length ? 'overflow-hidden rounded-2xl' : ''}`}>
+              <Media image={MEDIA.spotlight.image ?? spotlight.images?.[0]} className="h-full w-full" fallback={<ProductArt art={spotlight.art} color={spotlight.colors[0].hex} accent={spotlight.colors[0].accent} bare alt={spotlight.name} />} />
             </div>
             <p className="mt-4 text-center font-display uppercase text-brand">{spotlight.name} · {inr(spotlight.price)}</p>
           </Link>
@@ -141,7 +124,7 @@ export default function Home() {
         <SectionHeading pre="Shop by" title="Style" action={<ExploreLink to="/shop">View all</ExploreLink>} />
         <div className="no-scrollbar -mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 lg:grid-cols-6">
           {CATEGORIES.map((c) => (
-            <Link key={c.slug} to={`/shop?category=${c.slug}`} className="group w-40 shrink-0 snap-start sm:w-auto">
+            <Link key={c.slug} to={`/collections/${c.slug}`} className="group w-40 shrink-0 snap-start sm:w-auto">
               <div className="tile aspect-[3/4] overflow-hidden rounded-xl">
                 <div className="h-full transition duration-700 group-hover:scale-105"><ProductArt art={catArt(c)} color={c.color} accent={c.accent} alt={c.name} /></div>
               </div>
@@ -190,7 +173,7 @@ function HeroFilm() {
 
   return (
     <section className="relative h-[calc(100svh-6.5rem)] min-h-[560px] overflow-hidden bg-[#E9D9C4]" aria-label="Ariba — the brand film">
-      <img src={MEDIA.hero.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <img src={MEDIA.hero.image} alt="" width={1280} height={720} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
       <video
         ref={ref}
         className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}
@@ -220,10 +203,11 @@ function HeroFilm() {
       {/* Brand name */}
       <div className="absolute inset-x-0 bottom-0 px-4 pb-6 sm:px-8 sm:pb-8">
         <div className="mx-auto flex max-w-7xl flex-wrap items-end justify-between gap-3 px-1 pb-2 sm:pb-0">
-          <p className="max-w-xs text-sm font-medium leading-relaxed text-ink">Handcrafted ladies suits, embroidered by artisans in Lucknow &amp; Jaipur.</p>
+          <p className="max-w-sm text-sm font-medium leading-relaxed text-ink">Kurtis and suits in our own designs, with handmade detailing and quality tailoring, delivered across India.</p>
           <ExploreLink to="/shop">Shop the collection</ExploreLink>
         </div>
-        <h1 className="mt-3 flex select-none justify-center font-display text-[30vw] font-bold leading-[.9] tracking-tight text-brand sm:text-[19vw] xl:text-[250px]" aria-label="Ariba">
+        <h1 className="mt-3 flex select-none justify-center font-display text-[30vw] font-bold leading-[.9] tracking-tight text-brand sm:text-[19vw] xl:text-[250px]">
+          <span className="sr-only">Ariba Collections: designer ladies suits online in India</span>
           {'ARIBA'.split('').map((ch, i) => (
             <span key={i} className="animate-word-in" style={{ animationDelay: `${300 + i * 110}ms` }} aria-hidden>{ch}</span>
           ))}
@@ -244,39 +228,31 @@ function FeatureCard({ icon, title, body, className = '' }: { icon: IconName; ti
   );
 }
 
-function TestimonialCard() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI((x) => (x + 1) % TESTIMONIALS.length), 5000);
-    return () => clearInterval(t);
-  }, []);
-  const t = TESTIMONIALS[i];
+function NewCollection() {
+  const { href, tiles } = MEDIA.newCollection;
+  const reduceMotion = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   return (
-    <div className="glass ml-auto w-full max-w-xs rounded-xl p-5 text-white">
-      <p className="text-[10px] uppercase tracking-[.3em] text-white/80">Satisfied customers</p>
-      <p key={i} className="mt-3 animate-fade-in text-sm leading-relaxed">“{t.text}”</p>
-      <p className="mt-3 text-xs text-white/80">— {t.name}, {t.city}</p>
-      <div className="mt-4 flex gap-1.5">
-        {TESTIMONIALS.map((_, k) => (
-          <button key={k} onClick={() => setI(k)} aria-label={`Show testimonial ${k + 1}`} className={`h-1.5 rounded-full transition-all ${k === i ? 'w-6 bg-white' : 'w-1.5 bg-white/50'}`} />
-        ))}
+    <section className="bg-[#EAE2D6] pb-14 pt-12 sm:pt-16" aria-label="The new collection">
+      <div className="container-x flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="eyebrow text-brand/80">Now in stock · Handcrafted · Timeless</p>
+          <Heading pre="The new" title="Collection is here" className="mt-2" />
+        </div>
+        <Link to={href} className="btn-primary">Shop the new collection <Icon name="arrowUpRight" size={16} /></Link>
       </div>
-    </div>
-  );
-}
 
-function CampaignFallback() {
-  return (
-    <div className="scene-fallback absolute inset-0">
-      <div className="absolute left-[30%] top-[10%] h-[60%] w-[50%] animate-drift rounded-full bg-blush-200 blur-3xl" />
-      <div className="absolute bottom-0 left-1/2 flex h-[85%] -translate-x-1/2 items-end gap-2 sm:gap-6">
-        {[['#7A1F3D', '#D9B677', 'paisley', 'anarkali'], ['#F2B48F', '#8C3F2A', 'floral', 'aline'], ['#1F6B4A', '#E8C77A', 'booti', 'straight']].map(([c, a, p, s], k) => (
-          <div key={c} className={`aspect-[3/4] ${k === 1 ? 'h-full' : 'h-[82%]'}`}>
-            <ProductArt bare art={{ pattern: p as 'floral', silhouette: s as 'aline', bottom: k === 1 ? 'sharara' : 'pant' }} color={c} accent={a} />
-          </div>
+      <div className="no-scrollbar mt-8 flex snap-x snap-mandatory items-center gap-4 overflow-x-auto px-4 sm:px-8 lg:mx-auto lg:grid lg:max-w-5xl lg:grid-cols-2 lg:items-center lg:gap-8 lg:overflow-visible lg:px-8">
+        {tiles.map((t) => (
+          <Link key={t.src} to={t.to ?? href} style={{ aspectRatio: `${t.w} / ${t.h}` }} className="group relative block w-[78vw] max-w-[420px] shrink-0 snap-center overflow-hidden rounded-xl bg-[#DCD2C4] shadow-xl shadow-ink/10 sm:w-[46vw] lg:w-auto lg:max-w-none">
+            {t.kind === 'video' ? (
+              <video src={t.src} poster={t.poster} aria-label={t.alt} className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]" autoPlay={!reduceMotion} muted loop playsInline preload="metadata" />
+            ) : (
+              <img src={t.src} alt={t.alt} width={t.w} height={t.h} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]" />
+            )}
+          </Link>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -6,6 +6,7 @@ import { Header } from './Header';
 import { MobileMenu } from './MobileMenu';
 import { SearchOverlay } from './SearchOverlay';
 import { Toaster } from './Toaster';
+import { SeoSync } from '@/seo/SeoSync';
 
 export function Layout() {
   const { pathname } = useLocation();
@@ -13,7 +14,9 @@ export function Layout() {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [pathname]);
   return (
-    <div className="backdrop-clouds min-h-screen bg-fixed md:py-0.5">
+    <>
+    <SeoSync />
+    <div className="min-h-screen bg-paper">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[80] focus:rounded-full focus:bg-brand focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
       <div className="frame flex min-h-screen flex-col">
         <Header />
@@ -27,5 +30,6 @@ export function Layout() {
       <SearchOverlay />
       <Toaster />
     </div>
+    </>
   );
 }

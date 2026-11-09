@@ -3,7 +3,6 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Icon } from '@/components/Icon';
 import { EmptyState, Field, Heading, Skeleton, Spinner } from '@/components/ui';
 import { useAsync } from '@/hooks/useAsync';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { cancelOrder, getOrdersForUser, login, register, updateProfile } from '@/services/api';
 import { useAuth, useUI } from '@/store';
 import type { Order, OrderStatus } from '@/types';
@@ -11,7 +10,6 @@ import { cx, formatDate, inr } from '@/utils/format';
 
 export default function Account() {
   const user = useAuth((s) => s.user);
-  useDocumentTitle(user ? 'My account' : 'Sign in');
   return user ? <Dashboard /> : <AuthForms />;
 }
 

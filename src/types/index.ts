@@ -18,6 +18,8 @@ export interface Category {
   color: string;
   accent: string;
   pattern: Pattern;
+  /** Shown under the H1 on /collections/<slug> and used for its meta description. */
+  intro: string;
 }
 
 export interface ColorOption {
@@ -51,6 +53,7 @@ export interface Product {
   occasion: Occasion;
   price: number;
   mrp: number;
+  /** Average of real customer reviews; 0 when there are none. */
   rating: number;
   reviewCount: number;
   colors: ColorOption[];

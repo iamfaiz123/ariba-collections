@@ -2,12 +2,10 @@ import { Link } from 'react-router-dom';
 import { ProductGrid } from '@/components/ProductCard';
 import { EmptyState, Heading } from '@/components/ui';
 import { useAsync } from '@/hooks/useAsync';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { getProductsByIds } from '@/services/api';
 import { useWishlist } from '@/store';
 
 export default function Wishlist() {
-  useDocumentTitle('Wishlist');
   const ids = useWishlist((s) => s.ids);
   const { data, loading } = useAsync(() => getProductsByIds(ids), [ids.join(',')]);
   return (

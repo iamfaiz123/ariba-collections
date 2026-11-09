@@ -5,7 +5,6 @@ import { CouponBox, TotalsTable } from '@/components/OrderSummary';
 import { ProductArt } from '@/components/ProductArt';
 import { Breadcrumbs, Field, Heading, Spinner } from '@/components/ui';
 import { INDIAN_STATES, SHIPPING } from '@/data/content';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { placeOrder } from '@/services/api';
 import { storage } from '@/services/storage';
 import { useAuth, useCart, useUI } from '@/store';
@@ -34,7 +33,6 @@ const PAYMENTS: { id: PaymentMethod; label: string; sub: string }[] = [
 ];
 
 export default function Checkout() {
-  useDocumentTitle('Checkout');
   const user = useAuth((s) => s.user);
   const { items, coupon, clear } = useCart();
   const toast = useUI((s) => s.toast);

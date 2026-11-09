@@ -5,27 +5,30 @@ import { Media } from '@/components/Media';
 import { EmptyState, ExploreLink, Field, Heading, Spinner } from '@/components/ui';
 import { FAQS } from '@/data/content';
 import { MEDIA } from '@/data/media';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { sendContactMessage } from '@/services/api';
 import { useUI } from '@/store';
 import { cx } from '@/utils/format';
 
 export function About() {
-  useDocumentTitle('Our story');
   return (
     <div className="container-x py-12">
       <Heading as="h1" pre="Our" title="Story" size="xl" />
       <div className="mt-12 grid items-center gap-12 lg:grid-cols-2">
         <Media image={MEDIA.story.image} className="aspect-[4/5] rounded-xl" />
         <div className="space-y-5 text-[15px] leading-relaxed text-ink-600">
-          <p className="font-serif text-3xl italic leading-snug text-brand">“We started Ariba with one belief — that every woman deserves a suit that feels like it was made just for her.”</p>
-          <p>What began in 2014 as a small studio in Lucknow’s Hazratganj is today a community of 320 artisans — chikankari karigars, block printers from Bagru, zardozi masters and weavers from Chanderi.</p>
-          <p>We design in small batches, pay fair wages, and hand-check every piece before it reaches you. No fast fashion. Just craft, made to be worn and loved for years.</p>
+          <p className="font-serif text-3xl italic leading-snug text-brand">Every beautiful outfit begins with an idea. Ours began with a simple observation.</p>
+          <p>In 2023, we noticed something missing in the market. Many women were buying kurtis with machine-made designs and ordinary prints, but finding something that felt truly special was becoming difficult.</p>
+          <p>We believed there was a better way.</p>
+          <p>That’s how Ariba began, with a vision to create beautiful kurtis featuring thoughtfully designed patterns, handmade detailing and quality tailoring. Instead of simply selling what was already available, we decided to create our own designs and bring them to life with our own skilled tailors.</p>
+          <p>What started as a small initiative has grown into something we’re incredibly proud of. Over the years, we’ve sold thousands of kurtis and earned the trust of customers who appreciate the beauty of thoughtfully made clothing.</p>
+          <p>Today, we’re taking the next step by expanding Ariba and bringing our designs to even more women.</p>
+          <p className="font-medium text-ink">Our belief remains the same: beautiful clothing shouldn’t just look good. It should make you feel beautiful.</p>
+          <p className="font-serif text-2xl italic text-brand">Welcome to Ariba. ❤️</p>
           <ExploreLink to="/shop">Explore the collection</ExploreLink>
         </div>
       </div>
       <div className="mt-20 grid gap-6 sm:grid-cols-3">
-        {[['Handcrafted', 'Every motif is drawn, printed or embroidered by hand.'], ['Fair & ethical', 'Fair wages and safe workspaces for every artisan.'], ['Small batch', 'Limited runs mean less waste and more care.']].map(([t, b]) => (
+        {[['Our own designs', 'Every pattern is designed by us, never picked from what is already in the market.'], ['Handmade detailing', 'Hand-finished details that machine-made prints can’t match.'], ['Quality tailoring', 'Stitched by our own skilled tailors, with care in every seam.']].map(([t, b]) => (
           <div key={t} className="rounded-xl bg-ink p-8 text-white"><h3 className="text-2xl">{t}</h3><p className="mt-2 text-sm text-white/75">{b}</p></div>
         ))}
       </div>
@@ -34,7 +37,6 @@ export function About() {
 }
 
 export function Contact() {
-  useDocumentTitle('Contact');
   const toast = useUI((s) => s.toast);
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [busy, setBusy] = useState(false);
@@ -77,7 +79,6 @@ export function Contact() {
 }
 
 export function Faq() {
-  useDocumentTitle('FAQs');
   const [open, setOpen] = useState(0);
   return (
     <div className="container-x max-w-3xl py-12">
@@ -99,7 +100,6 @@ export function Faq() {
 }
 
 export function NotFound() {
-  useDocumentTitle('Page not found');
   return (
     <div className="container-x py-20 text-center">
       <p className="font-display text-[30vw] font-bold leading-none text-brand sm:text-[200px]">404</p>

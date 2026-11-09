@@ -1,0 +1,10 @@
+{
+  "name": "Ariba Collections",
+  "short_name": "Ariba",
+  "description": "Designer ladies suits online in India",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F3F0",
+  "theme_color": "#6E0F1C",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

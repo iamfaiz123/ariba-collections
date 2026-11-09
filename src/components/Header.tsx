@@ -89,7 +89,7 @@ function MegaMenu() {
           <div>
             <p className="eyebrow mb-3">Categories</p>
             <ul className="space-y-2.5">
-              {CATEGORIES.map((c) => <li key={c.slug}><Link className="hover:text-brand" to={`/shop?category=${c.slug}`}>{c.name}</Link></li>)}
+              {CATEGORIES.map((c) => <li key={c.slug}><Link className="hover:text-brand" to={`/collections/${c.slug}`}>{c.name}</Link></li>)}
               <li><Link className="font-medium text-brand" to="/shop">View all →</Link></li>
             </ul>
           </div>
@@ -106,7 +106,7 @@ function MegaMenu() {
         </div>
         <div className="grid grid-cols-3 gap-4">
           {CATEGORIES.slice(0, 3).map((c) => (
-            <Link key={c.slug} to={`/shop?category=${c.slug}`} className="group">
+            <Link key={c.slug} to={`/collections/${c.slug}`} className="group">
               <div className="tile aspect-[4/5] overflow-hidden rounded-xl">
                 <div className="h-full transition duration-700 group-hover:scale-105">
                   <ProductArt art={{ pattern: c.pattern, silhouette: c.slug === 'anarkali' ? 'anarkali' : c.slug === 'straight' ? 'straight' : 'aline', bottom: c.slug === 'sharara' ? 'sharara' : 'pant' }} color={c.color} accent={c.accent} />

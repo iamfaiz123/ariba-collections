@@ -28,7 +28,8 @@
       radial-gradient(28% 20% at 62% 32%, rgba(255,228,233,.85), transparent 70%),
       linear-gradient(180deg, #A9CFE0 0%, #E9D3D2 38%, #D9A877 62%, #A86A3A 100%);
   }
-  .frame { @apply relative mx-auto w-full max-w-[1480px] bg-paper md:my-5 md:w-[calc(100%-2.5rem)] md:rounded-[4px] md:shadow-[0_30px_80px_-30px_rgba(110,15,28,.35)]; }
+  /* The page fills the whole viewport, edge to edge and at least full height. */
+  .frame { @apply relative w-full bg-paper; }
   .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12; }
 
   .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium tracking-wide transition disabled:cursor-not-allowed disabled:opacity-50; }
@@ -60,3 +61,12 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* Static snapshot written by scripts/prerender.mjs; shown only until the app starts. */
+.prose-seo { @apply space-y-4 text-sm leading-relaxed text-ink-600; }
+.prose-seo h1 { @apply font-display text-4xl uppercase text-brand; }
+.prose-seo h2 { @apply font-display text-xl uppercase text-ink; }
+.prose-seo nav { @apply text-xs; }
+.prose-seo a { @apply underline-offset-4 hover:underline; }
+.prose-seo ul { @apply flex flex-wrap gap-4; }
+.prose-seo img { @apply block h-auto w-40 rounded-xl; }

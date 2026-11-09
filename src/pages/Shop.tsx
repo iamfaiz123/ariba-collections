@@ -1,12 +1,11 @@
-import { useMemo, useState, type ReactNode } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Icon } from '@/components/Icon';
 import { ProductGrid } from '@/components/ProductCard';
 import { Breadcrumbs, EmptyState, Heading } from '@/components/ui';
 import { CATEGORIES, categoryBySlug } from '@/data/categories';
 import { ALL_COLORS, ALL_SIZES, FABRICS, OCCASIONS } from '@/data/products';
 import { useAsync } from '@/hooks/useAsync';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { getProducts } from '@/services/api';
 import type { CategorySlug, Fabric, Occasion, ProductFilters, Size, SortKey } from '@/types';
 import { cx } from '@/utils/format';
@@ -16,7 +15,6 @@ const SORTS: { key: SortKey; label: string }[] = [
   { key: 'newest', label: 'Newest' },
   { key: 'price-asc', label: 'Price: Low to High' },
   { key: 'price-desc', label: 'Price: High to Low' },
-  { key: 'rating', label: 'Top rated' },
   { key: 'discount', label: 'Biggest discount' },
 ];
 
@@ -31,13 +29,25 @@ type MultiKey = 'category' | 'fabric' | 'occasion' | 'size' | 'color';
 
 export default function Shop() {
   const [params, setParams] = useSearchParams();
+  const { category: pathCat } = useParams();
+  const navigate = useNavigate();
+
+  // One category = a collection page with a clean, indexable URL: /shop?category=x → /collections/x
+  useEffect(() => {
+    const cats = params.getAll('category');
+    if (!pathCat && cats.length === 1) {
+      const rest = new URLSearchParams(params);
+      rest.delete('category');
+      navigate(`/collections/${cats[0]}${rest.size ? `?${rest}` : ''}`, { replace: true });
+    }
+  }, [pathCat, params, navigate]);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const filters: ProductFilters = useMemo(() => {
     const num = (k: string) => (params.get(k) ? Number(params.get(k)) : undefined);
     return {
       q: params.get('q') ?? undefined,
-      category: params.getAll('category') as CategorySlug[],
+      category: (pathCat ? [pathCat] : params.getAll('category')) as CategorySlug[],
       fabric: params.getAll('fabric') as Fabric[],
       occasion: params.getAll('occasion') as Occasion[],
       size: params.getAll('size') as Size[],
@@ -48,13 +58,11 @@ export default function Shop() {
       page: num('page') ?? 1,
       pageSize: 12,
     };
-  }, [params]);
+  }, [params, pathCat]);
 
-  const { data, loading } = useAsync(() => getProducts(filters), [params.toString()]);
+  const { data, loading } = useAsync(() => getProducts(filters), [pathCat, params.toString()]);
 
   const singleCat = filters.category?.length === 1 ? categoryBySlug(filters.category[0]) : undefined;
-  const title = filters.q ? `Results for “${filters.q}”` : singleCat?.name ?? (filters.occasion?.length === 1 ? `${filters.occasion[0]} Suits` : 'All Suits');
-  useDocumentTitle(title.replace(/[“”]/g, ''));
 
   const update = (fn: (p: URLSearchParams) => void) => {
     const next = new URLSearchParams(params);
@@ -64,7 +72,20 @@ export default function Shop() {
     setParams(next, { replace: false });
   };
 
+  /** Categories live in the path when there is exactly one, so toggling one can change the route. */
+  const toggleCategory = (slug: string) => {
+    const cur = filters.category ?? [];
+    const next = cur.includes(slug as CategorySlug) ? cur.filter((c) => c !== slug) : [...cur, slug];
+    const p = new URLSearchParams(params);
+    p.delete('category');
+    p.delete('page');
+    if (next.length === 1) return navigate(`/collections/${next[0]}${p.size ? `?${p}` : ''}`);
+    next.forEach((c) => p.append('category', c));
+    navigate(`/shop${p.size ? `?${p}` : ''}`);
+  };
+
   const toggle = (key: MultiKey, value: string) =>
+    key === 'category' ? toggleCategory(value) :
     update((p) => {
       const vals = p.getAll(key);
       p.delete(key);
@@ -82,11 +103,11 @@ export default function Shop() {
       }
     });
 
-  const clearAll = () => setParams(filters.q ? { q: filters.q } : {});
+  const clearAll = () => navigate(filters.q ? `/shop?q=${encodeURIComponent(filters.q)}` : '/shop');
 
   const active: { label: string; onRemove: () => void }[] = [
     ...(['category', 'fabric', 'occasion', 'size', 'color'] as MultiKey[]).flatMap((k) =>
-      params.getAll(k).map((v) => ({ label: k === 'category' ? categoryBySlug(v)?.name ?? v : k === 'size' ? `Size ${v}` : v, onRemove: () => toggle(k, v) })),
+      (k === 'category' ? filters.category ?? [] : params.getAll(k)).map((v) => ({ label: k === 'category' ? categoryBySlug(v)?.name ?? v : k === 'size' ? `Size ${v}` : v, onRemove: () => toggle(k, v) })),
     ),
     ...(filters.minPrice != null || filters.maxPrice != null
       ? [{ label: PRICE_RANGES.find((r) => r.min === filters.minPrice && r.max === filters.maxPrice)?.label ?? 'Price', onRemove: () => setPrice(filters.minPrice, filters.maxPrice) }]
@@ -137,7 +158,14 @@ export default function Shop() {
       <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Shop', to: singleCat || filters.q ? '/shop' : undefined }, ...(singleCat ? [{ label: singleCat.name }] : [])]} />
       <div className="mt-4 flex flex-col gap-1 border-b border-ink/10 pb-6">
         <Heading as="h1" pre={filters.q ? 'Results for' : singleCat ? 'Shop' : 'Shop all'} title={filters.q ? `“${filters.q}”` : singleCat?.name ?? (filters.occasion?.length === 1 ? `${filters.occasion[0]} suits` : 'Suits')} />
-        <p className="mt-2 text-sm text-ink-600">{singleCat?.tagline ?? 'Handcrafted suits for every mood and moment.'}</p>
+        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-600">{singleCat?.intro ?? 'Handcrafted ladies suits for every mood and moment: Anarkali, straight, sharara, palazzo, Patiala and unstitched suits, delivered across India.'}</p>
+        {!filters.q && (
+          <nav aria-label="Collections" className="no-scrollbar mt-4 flex gap-2 overflow-x-auto">
+            {CATEGORIES.map((c) => (
+              <Link key={c.slug} to={`/collections/${c.slug}`} className={cx('chip shrink-0', singleCat?.slug === c.slug && 'chip-active')} aria-current={singleCat?.slug === c.slug ? 'page' : undefined}>{c.name}</Link>
+            ))}
+          </nav>
+        )}
       </div>
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[240px_1fr]">

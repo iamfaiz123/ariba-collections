@@ -7,7 +7,6 @@ import { Breadcrumbs, EmptyState, Modal, Price, QtyStepper, SectionHeading, Skel
 import { categoryBySlug } from '@/data/categories';
 import { SHIPPING, SIZE_CHART } from '@/data/content';
 import { useAsync } from '@/hooks/useAsync';
-import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { getProductBySlug, getRelated } from '@/services/api';
 import { useCart, useRecent, useUI, useWishlist } from '@/store';
 import type { Product as P, Size } from '@/types';
@@ -18,7 +17,6 @@ type Slide = { kind: 'video'; src: string } | { kind: 'image'; src: string } | {
 export default function ProductPage() {
   const { slug = '' } = useParams();
   const { data: product, loading } = useAsync(() => getProductBySlug(slug), [slug]);
-  useDocumentTitle(product?.name ?? 'Product');
 
   if (loading) return <ProductSkeleton />;
   if (!product) return <div className="container-x"><EmptyState icon="search" title="Product not found" body="It may have sold out or moved. Explore our latest styles instead." action={<Link to="/shop" className="btn-primary">Shop all</Link>} /></div>;
@@ -88,7 +86,7 @@ function ProductView({ product }: { product: P }) {
 
   return (
     <div className="container-x py-8">
-      <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Shop', to: '/shop' }, { label: cat?.name ?? '', to: `/shop?category=${product.category}` }, { label: product.name }]} />
+      <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Shop', to: '/shop' }, { label: cat?.name ?? '', to: `/collections/${product.category}` }, { label: product.name }]} />
 
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
         {/* Gallery */}
@@ -111,9 +109,11 @@ function ProductView({ product }: { product: P }) {
         <div>
           <p className="eyebrow">{cat?.name} · {product.fabric}</p>
           <h1 className="mt-3 text-4xl font-semibold leading-none text-brand sm:text-5xl">{product.name}</h1>
-          <a href="#reviews" className="mt-3 flex items-center gap-2 text-sm text-ink-600 hover:text-brand">
-            <Stars rating={product.rating} /> {product.rating} · {product.reviewCount} reviews
-          </a>
+          {product.reviewCount > 0 && (
+            <a href="#reviews" className="mt-3 flex items-center gap-2 text-sm text-ink-600 hover:text-brand">
+              <Stars rating={product.rating} /> {product.rating.toFixed(1)} · {product.reviewCount} {product.reviewCount === 1 ? 'review' : 'reviews'}
+            </a>
+          )}
           <div className="mt-5"><Price price={product.price} mrp={product.mrp} size="lg" /></div>
           <p className="mt-1 text-xs text-ink-400">Inclusive of all taxes</p>
           <p className="mt-5 text-[15px] leading-relaxed text-ink-600">{product.description}</p>
@@ -185,16 +185,17 @@ function ProductView({ product }: { product: P }) {
         </div>
       </div>
 
-      {/* Reviews */}
+      {/* Reviews: real customer reviews only, hidden until there are some */}
+      {product.reviews.length > 0 && (
       <section id="reviews" className="mt-24 scroll-mt-24">
         <SectionHeading pre="Customer" title="Reviews" />
         <div className="grid gap-10 lg:grid-cols-[280px_1fr]">
           <div className="rounded-xl bg-white p-6">
-            <p className="font-display text-6xl font-semibold text-brand">{product.rating}</p>
+            <p className="font-display text-6xl font-semibold text-brand">{product.rating.toFixed(1)}</p>
             <Stars rating={product.rating} size={18} className="mt-2" />
-            <p className="mt-2 text-sm text-ink-600">Based on {product.reviewCount} reviews</p>
+            <p className="mt-2 text-sm text-ink-600">Based on {product.reviewCount} {product.reviewCount === 1 ? 'review' : 'reviews'}</p>
             {[5, 4, 3, 2, 1].map((n) => {
-              const pct = n === 5 ? 72 : n === 4 ? 21 : n === 3 ? 5 : 1;
+              const pct = Math.round((product.reviews.filter((r) => Math.round(r.rating) === n).length / product.reviews.length) * 100);
               return (
                 <div key={n} className="mt-2 flex items-center gap-2 text-xs">
                   <span className="w-3">{n}</span>
@@ -219,6 +220,7 @@ function ProductView({ product }: { product: P }) {
           </ul>
         </div>
       </section>
+      )}
 
       <section className="mt-24">
         <SectionHeading pre="You may" title="Also like" />
