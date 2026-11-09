@@ -17,6 +17,8 @@ export default {
         display: ['Oswald', 'Impact', 'sans-serif'],
         serif: ['"Instrument Serif"', 'Georgia', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        /** The Aribas logo lettering (logos/2-script-signature). */
+        script: ['"Pinyon Script"', 'cursive'],
       },
       keyframes: {
         'slide-in': { from: { transform: 'translateX(100%)' }, to: { transform: 'translateX(0)' } },

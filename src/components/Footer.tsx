@@ -49,7 +49,7 @@ export function Footer() {
         <div className="relative flex min-h-[560px] flex-col justify-between gap-12 px-6 pb-8 pt-[250px] sm:px-10 lg:pt-[19vw] xl:pt-[18.5vw]">
           <div className="text-center">
             <Link to="/shop" className="inline-flex items-center gap-2 border-b-2 border-[#D8B67E] pb-1 font-display text-lg font-medium uppercase tracking-wide text-[#E9CF9F] transition hover:gap-3">Explore now <Icon name="arrowUpRight" size={18} /></Link>
-            <p className="mt-4 select-none font-display text-[22vw] font-bold uppercase leading-[.8] text-[#D8B67E] md:text-[15vw] xl:text-[200px]" aria-hidden>Aribas</p>
+            <p className="mt-2 select-none pr-[.12em] font-script text-[30vw] leading-[1.05] text-[#D8B67E] md:text-[19vw] xl:text-[250px]" aria-hidden>Aribas</p>
           </div>
           <div className="grid gap-10 text-white lg:grid-cols-[1.2fr_2fr]">
             <div>

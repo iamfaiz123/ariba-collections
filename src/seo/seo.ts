@@ -50,7 +50,7 @@ const organization: JsonLd = {
   name: BRAND,
   alternateName: ['Ariba', 'Ariba Collections'],
   url: `${SITE_URL}/`,
-  logo: abs('/favicon.svg'),
+  logo: abs('/icon-512.png'),
   description: DEFAULT_DESCRIPTION,
   areaServed: { '@type': 'Country', name: 'India' },
   // Add your Instagram / Facebook / YouTube URLs here once the accounts are live.

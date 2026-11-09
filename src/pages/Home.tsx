@@ -212,11 +212,9 @@ function HeroFilm() {
           <p className="max-w-sm text-sm font-medium leading-relaxed text-ink">Kurtis and suits in our own designs, with handmade detailing and quality tailoring, delivered across India.</p>
           <ExploreLink to="/shop">Shop the collection</ExploreLink>
         </div>
-        <h1 className="mt-3 flex select-none justify-center font-display text-[30vw] font-bold leading-[.9] tracking-tight text-brand sm:text-[19vw] xl:text-[250px]">
+        <h1 className="mt-1 flex select-none justify-center font-script normal-case tracking-normal text-[33vw] leading-[1.05] text-brand sm:text-[22vw] xl:text-[300px]">
           <span className="sr-only">Aribas: designer ladies suits online in India</span>
-          {'ARIBAS'.split('').map((ch, i) => (
-            <span key={i} className="animate-word-in" style={{ animationDelay: `${300 + i * 110}ms` }} aria-hidden>{ch}</span>
-          ))}
+          <span className="animate-word-in pr-[.12em]" style={{ animationDelay: '300ms' }} aria-hidden>Aribas</span>
         </h1>
       </div>
     </section>
