@@ -61,7 +61,7 @@ A product with photos is automatically added to the shop and sitemap and given G
 
 ## Deploying (Render)
 
-Static site, built with `npm ci && npm run build`, published from `dist/`. Rewrite rules are listed in `render.yaml` (set on the service through the Render API; the service is not managed as a Blueprint). Each prerendered route, e.g. `/product/*`, is rewritten to its `index.html`, and everything else to `/200.html` (the app shell, marked noindex). If you add a new kind of public page, add a rule for it before the catch-all.
+Static site, built with `npm ci && npm run build`, published from `dist/`. Rewrite rules are listed in `render.yaml` (set on the service through the Render API; the service is not managed as a Blueprint). Each prerendered route is rewritten to its `index.html` by exact path, and everything else to `/200.html` (the app shell, marked noindex). Don't use wildcards such as `/product/*`: Render returns a blank page when the target file doesn't exist. **When you add a product, add a rule for `/product/<slug>`** (and for any new public page) before the catch-all.
 
 ## Phase 2: connecting the backend
 
