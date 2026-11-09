@@ -6,6 +6,8 @@ interface Props {
   video?: string;
   alt?: string;
   className?: string;
+  /** Extra classes for the <img>, e.g. `object-left-top` to choose which part survives cropping. */
+  imgClassName?: string;
   /** Rendered under the media; shown on its own until a real file loads. */
   fallback?: ReactNode;
   children?: ReactNode;
@@ -15,13 +17,13 @@ interface Props {
  * Photo / video slot. Drop files into /public/media (see src/data/media.ts) and they
  * appear automatically; until then a painted scene is shown so the layout never breaks.
  */
-export function Media({ image, video, alt = '', className, fallback, children }: Props) {
+export function Media({ image, video, alt = '', className, imgClassName, fallback, children }: Props) {
   const [imgOk, setImgOk] = useState(false);
   const [vidOk, setVidOk] = useState(false);
   return (
     <div className={cx('relative overflow-hidden', className)}>
       <div className="absolute inset-0">{fallback ?? <SceneFallback />}</div>
-      {image && <img src={image} alt={alt} onLoad={() => setImgOk(true)} className={cx('absolute inset-0 h-full w-full object-cover transition-opacity duration-700', imgOk ? 'opacity-100' : 'opacity-0')} />}
+      {image && <img src={image} alt={alt} onLoad={() => setImgOk(true)} className={cx('absolute inset-0 h-full w-full object-cover transition-opacity duration-700', imgClassName, imgOk ? 'opacity-100' : 'opacity-0')} />}
       {video && (
         <video
           className={cx('absolute inset-0 h-full w-full object-cover transition-opacity duration-700', vidOk ? 'opacity-100' : 'opacity-0')}

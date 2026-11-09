@@ -17,7 +17,8 @@ export const MEDIA = {
   // Empty slots below show the painted fallback. When you add a file, fill in its path, e.g.
   // banner: { video: '/media/banner.mp4', image: '/media/banner.jpg' }
   banner: {} as { video?: string; image?: string },
-  footer: {} as { video?: string; image?: string },
+  /** Dark embroidered backdrop: gold lace border along the top, needle and hoop bottom-left. */
+  footer: { image: '/media/footer.webp' } as { video?: string; image?: string },
   story: { image: '/media/our-story.jpg', alt: 'A busy clothing market street at night, stalls hung with ready-made kurtis and dupattas' } as { image?: string; alt?: string },
   spotlight: {} as { image?: string },
 };

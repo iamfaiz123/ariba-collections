@@ -43,12 +43,13 @@ const COLS: { title: string; links: [string, string][] }[] = [
 export function Footer() {
   return (
     <footer className="mt-24">
-      <Media {...MEDIA.footer} className="min-h-[560px]">
-        <div className="absolute inset-0 bg-gradient-to-b from-paper via-paper/10 to-black/55" />
-        <div className="relative flex min-h-[560px] flex-col justify-between px-6 pb-8 pt-10 sm:px-10">
+      {/* Keep the gold lace (top) and the needle & hoop (bottom-left) in frame at every width. */}
+      <Media {...MEDIA.footer} className="min-h-[560px] bg-[#231710]" imgClassName="object-left-top" fallback={<div className="h-full w-full bg-[#231710]" />}>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/40" />
+        <div className="relative flex min-h-[560px] flex-col justify-between gap-12 px-6 pb-8 pt-[250px] sm:px-10 lg:pt-[19vw] xl:pt-[18.5vw]">
           <div className="text-center">
-            <Link to="/shop" className="link-cta">Explore now <Icon name="arrowUpRight" size={18} /></Link>
-            <p className="mt-4 select-none font-display text-[22vw] font-bold uppercase leading-[.8] text-brand md:text-[15vw] xl:text-[200px]" aria-hidden>Aribas</p>
+            <Link to="/shop" className="inline-flex items-center gap-2 border-b-2 border-[#D8B67E] pb-1 font-display text-lg font-medium uppercase tracking-wide text-[#E9CF9F] transition hover:gap-3">Explore now <Icon name="arrowUpRight" size={18} /></Link>
+            <p className="mt-4 select-none font-display text-[22vw] font-bold uppercase leading-[.8] text-[#D8B67E] md:text-[15vw] xl:text-[200px]" aria-hidden>Aribas</p>
           </div>
           <div className="grid gap-10 text-white lg:grid-cols-[1.2fr_2fr]">
             <div>
