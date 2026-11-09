@@ -27,16 +27,19 @@ export const CONTACT = {
 /**
  * Google tools. Paste the codes here and redeploy; empty = switched off.
  * - googleSiteVerification: Search Console → "HTML tag" method → just the content="…" value.
- * - googleAnalyticsId: Analytics → Data stream → Measurement ID, e.g. 'G-ABC123XYZ'.
+ * - googleTagManagerId: Tag Manager container, e.g. 'GTM-XXXXXXX'. Analytics (G-4CG5NSTB9D) is set up
+ *   inside this container, so googleAnalyticsId stays empty (setting both would count visits twice).
+ * - googleAnalyticsId: only if you ever drop Tag Manager: the Measurement ID, e.g. 'G-ABC123XYZ'.
  */
 export const TRACKING = {
   googleSiteVerification: '',
+  googleTagManagerId: 'GTM-TNGGPSN7',
   googleAnalyticsId: '',
 };
 
 /** Profile URLs. Empty ones are hidden in the footer and left out of Google's brand data (sameAs). */
 export const SOCIAL: Record<'instagram' | 'facebook' | 'youtube', string> = {
-  instagram: '', // e.g. 'https://www.instagram.com/aribas'
+  instagram: 'https://www.instagram.com/aribacollection/',
   facebook: '',
   youtube: '',
 };
