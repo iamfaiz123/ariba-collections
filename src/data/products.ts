@@ -113,4 +113,3 @@ export const FABRICS: Fabric[] = ['Cotton', 'Georgette', 'Silk', 'Chanderi', 'Ra
 export const OCCASIONS: Occasion[] = ['Casual', 'Festive', 'Wedding', 'Office', 'Party'];
 export const ALL_SIZES: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'Free'];
 export const ALL_COLORS = Object.values(PALETTE);
-export const PRICE_BOUNDS = { min: 0, max: 12000 };

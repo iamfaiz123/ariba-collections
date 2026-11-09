@@ -6,11 +6,10 @@
  * each function body with an HTTP call (see `http()` below) — the signatures and return
  * types are the contract the UI depends on, so no component needs to change.
  */
-import { CATEGORIES } from '@/data/categories';
 import { COUPONS, SHIPPING } from '@/data/content';
 import { PRODUCTS } from '@/data/products';
 import type {
-  Address, Category, Coupon, Order, OrderLine, Paginated, PaymentMethod, Product, ProductFilters,
+  Address, Coupon, Order, OrderLine, Paginated, PaymentMethod, Product, ProductFilters,
   ShippingMethod, User,
 } from '@/types';
 import { storage } from './storage';
@@ -36,11 +35,6 @@ export class ApiError extends Error {
 const delay = (ms = 250) => new Promise((r) => setTimeout(r, ms));
 
 // ---------- Catalogue ----------
-
-export async function getCategories(): Promise<Category[]> {
-  await delay(100);
-  return CATEGORIES;
-}
 
 const discountPct = (p: Product) => Math.round(((p.mrp - p.price) / p.mrp) * 100);
 
