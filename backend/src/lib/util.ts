@@ -7,9 +7,17 @@ export const rupees = (paise: number) => Math.round(paise) / 100;
 export const formatInr = (paise: number) =>
   'Rs. ' + (paise / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-/** Accepts 10-digit Indian mobiles in common formats and returns E.164 (+91XXXXXXXXXX). */
+/**
+ * Returns E.164 (+<country code><number>). Bare 10-digit numbers are treated as Indian.
+ * Indian numbers must be valid mobiles; other countries need 8–15 digits in total.
+ */
 export function normalizePhone(input: string): string {
-  const digits = String(input ?? '').replace(/[^\d]/g, '');
+  const raw = String(input ?? '').trim();
+  const digits = raw.replace(/[^\d]/g, '');
+  if (raw.startsWith('+') && !digits.startsWith('91')) {
+    if (!/^[1-9]\d{7,14}$/.test(digits)) throw badRequest('Enter a valid mobile number with country code.');
+    return `+${digits}`;
+  }
   const local = digits.length === 12 && digits.startsWith('91') ? digits.slice(2) : digits.length === 11 && digits.startsWith('0') ? digits.slice(1) : digits;
   if (!/^[6-9]\d{9}$/.test(local)) throw badRequest('Enter a valid 10-digit Indian mobile number.');
   return `+91${local}`;

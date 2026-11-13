@@ -8,3 +8,4 @@ dist
 # Full-size originals; the site uses the compressed copies in public/ (see source-assets/README.md)
 /frontend/source-assets/*
 !/frontend/source-assets/README.md
+!/frontend/.env.production
