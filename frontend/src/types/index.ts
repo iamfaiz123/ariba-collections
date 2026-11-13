@@ -172,5 +172,7 @@ export interface User {
   name: string;
   email: string;
   phone?: string;
+  /** Set by the backend (live mode). */
+  role?: 'customer' | 'admin';
   createdAt: string;
 }

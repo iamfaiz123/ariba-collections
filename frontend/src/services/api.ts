@@ -13,6 +13,7 @@ import type {
   ShippingMethod, User,
 } from '@/types';
 import { storage } from './storage';
+import { catalogue, LIVE } from './backend';
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL as string | undefined;
 
@@ -39,6 +40,11 @@ const delay = (ms = 250) => new Promise((r) => setTimeout(r, ms));
 const discountPct = (p: Product) => Math.round(((p.mrp - p.price) / p.mrp) * 100);
 
 export async function getProducts(f: ProductFilters = {}): Promise<Paginated<Product>> {
+  if (LIVE)
+    return catalogue.list({
+      q: f.q, category: f.category?.join(','), fabric: f.fabric?.join(','), occasion: f.occasion?.join(','), size: f.size?.join(','),
+      minPrice: f.minPrice, maxPrice: f.maxPrice, sort: f.sort === 'rating' ? 'featured' : f.sort, page: f.page, pageSize: f.pageSize ?? 12,
+    });
   await delay();
   const q = f.q?.trim().toLowerCase();
   let items = PRODUCTS.filter((p) => {
@@ -70,21 +76,33 @@ export async function getProducts(f: ProductFilters = {}): Promise<Paginated<Pro
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  if (LIVE) return catalogue.bySlug(slug);
   await delay(150);
   return PRODUCTS.find((p) => p.slug === slug) ?? null;
 }
 
 export async function getProductsByIds(ids: string[]): Promise<Product[]> {
+  if (LIVE) {
+    const valid = ids.filter((id) => /^[0-9a-f-]{36}$/.test(id));
+    if (!valid.length) return [];
+    const { items } = await catalogue.list({ ids: valid.join(','), pageSize: 60 });
+    return valid.map((id) => items.find((p) => p.id === id)).filter((p): p is Product => !!p);
+  }
   await delay(80);
   return ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter((p): p is Product => !!p);
 }
 
 export async function getRelated(product: Product, limit = 4): Promise<Product[]> {
+  if (LIVE) return (await catalogue.list({ category: product.category, exclude: product.id, pageSize: limit })).items;
   await delay(120);
   return PRODUCTS.filter((p) => p.id !== product.id && (p.category === product.category || p.occasion === product.occasion)).slice(0, limit);
 }
 
 export async function getFeatured(kind: 'new' | 'bestseller', limit = 8): Promise<Product[]> {
+  if (LIVE) {
+    const flagged = (await catalogue.list({ flag: kind, pageSize: limit })).items;
+    return flagged.length ? flagged : (await catalogue.list({ sort: kind === 'new' ? 'newest' : 'featured', pageSize: limit })).items;
+  }
   await delay(150);
   const list = kind === 'new' ? PRODUCTS.filter((p) => p.isNew) : PRODUCTS.filter((p) => p.isBestseller);
   return list.slice(0, limit);

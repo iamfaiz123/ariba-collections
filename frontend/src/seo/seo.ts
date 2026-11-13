@@ -266,7 +266,8 @@ export function getSeo(pathname: string, search = ''): Seo {
   }
 
   if (PRIVATE[path]) return base({ title: `${PRIVATE[path]} | ${BRAND}`, noindex: true });
-  if (/^\/order\//.test(path)) return base({ title: `Order Confirmed | ${BRAND}`, noindex: true });
+  if (/^\/order\//.test(path)) return base({ title: `Your Order | ${BRAND}`, noindex: true });
+  if (/^\/admin(\/|$)/.test(path)) return base({ title: `Admin | ${BRAND}`, noindex: true });
   return notFound();
 }
 

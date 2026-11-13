@@ -1,0 +1,35 @@
+{
+  "name": "aribas-backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env src/main.ts",
+    "start": "node --env-file-if-exists=.env dist/main.js",
+    "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "migrate": "tsx --env-file-if-exists=.env src/db/migrate.ts",
+    "seed": "tsx --env-file-if-exists=.env scripts/seed.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test --test-concurrency=1 test/*.test.ts"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^11.1.5",
+    "@fastify/cors": "^11.4.2",
+    "fastify": "^5.12.8",
+    "jose": "^6.2.17",
+    "pdfkit": "^0.20.2",
+    "pg": "^8.23.1",
+    "pg-boss": "^12.38.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/pdfkit": "^0.17.7",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

@@ -4,14 +4,17 @@ import { Layout } from '@/components/Layout';
 import { Spinner } from '@/components/ui';
 import Home from '@/pages/Home';
 import { About, Contact, Faq, NotFound } from '@/pages/Info';
+import { LIVE } from '@/services/backend';
 
 const Shop = lazy(() => import('@/pages/Shop'));
 const Product = lazy(() => import('@/pages/Product'));
 const Cart = lazy(() => import('@/pages/Cart'));
-const Checkout = lazy(() => import('@/pages/Checkout'));
-const OrderConfirmation = lazy(() => import('@/pages/OrderConfirmation'));
+// With a backend (VITE_API_URL), checkout/account/orders use the live versions.
+const Checkout = lazy(() => (LIVE ? import('@/pages/live/LiveCheckout') : import('@/pages/Checkout')));
+const OrderConfirmation = lazy(() => (LIVE ? import('@/pages/live/LiveOrder') : import('@/pages/OrderConfirmation')));
+const Admin = lazy(() => import('@/pages/admin/Admin'));
 const Wishlist = lazy(() => import('@/pages/Wishlist'));
-const Account = lazy(() => import('@/pages/Account'));
+const Account = lazy(() => (LIVE ? import('@/pages/live/LiveAccount') : import('@/pages/Account')));
 
 const wrap = (el: JSX.Element) => <Suspense fallback={<div className="grid min-h-[50vh] place-items-center text-brand"><Spinner className="h-8 w-8" /></div>}>{el}</Suspense>;
 
@@ -28,6 +31,7 @@ const router = createBrowserRouter([
       { path: '/order/:id', element: wrap(<OrderConfirmation />) },
       { path: '/wishlist', element: wrap(<Wishlist />) },
       { path: '/account', element: wrap(<Account />) },
+      { path: '/admin/*', element: wrap(<Admin />) },
       { path: '/about', element: <About /> },
       { path: '/contact', element: <Contact /> },
       { path: '/faq', element: <Faq /> },

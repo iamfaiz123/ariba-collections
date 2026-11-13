@@ -10,6 +10,7 @@ import { MEDIA } from '@/data/media';
 import { PRODUCTS } from '@/data/products';
 import { useAsync } from '@/hooks/useAsync';
 import { getFeatured } from '@/services/api';
+import { LIVE } from '@/services/backend';
 import type { Category } from '@/types';
 import { inr } from '@/utils/format';
 
@@ -36,7 +37,9 @@ const FEATURES: { icon: IconName; title: string; body: string }[] = [
 export default function Home() {
   const featured = useAsync(() => getFeatured('new', 4), []);
   const best = useAsync(() => getFeatured('bestseller', 3), []);
-  const spotlight = PRODUCTS[0] as (typeof PRODUCTS)[number] | undefined;
+  const spotlight = (LIVE ? featured.data?.[0] : PRODUCTS[0]) as (typeof PRODUCTS)[number] | undefined;
+  // Product sections stay hidden while the shop is empty.
+  const hasProducts = LIVE ? !!featured.data?.length : PRODUCTS.length > 0;
 
   return (
     <>
@@ -47,7 +50,7 @@ export default function Home() {
       <NewCollection />
 
       {/* 3 — Featured products (hidden while the shop is empty) */}
-      {PRODUCTS.length > 0 && (
+      {hasProducts && (
       <section className="container-x pt-24">
         <SectionHeading pre="Featured" title="Products" action={<ExploreLink to="/shop?sort=newest">Explore all</ExploreLink>} />
         <ProductGrid products={featured.data} loading={featured.loading} count={4} />
@@ -70,7 +73,7 @@ export default function Home() {
       </section>
 
       {/* 5 — Bestsellers, editorial grid (hidden while the shop is empty) */}
-      {PRODUCTS.length > 0 && (
+      {hasProducts && (
       <section className="container-x pt-24">
         <SectionHeading pre="Our" title="Bestsellers" action={<ExploreLink to="/shop">Explore all</ExploreLink>} />
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-5 lg:grid-cols-4">
