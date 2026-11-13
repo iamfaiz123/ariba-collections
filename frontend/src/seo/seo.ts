@@ -12,7 +12,7 @@ import { FAQS, SHIPPING, SOCIAL } from '@/data/content';
 import { PRODUCTS } from '@/data/products';
 import type { Category, Product } from '@/types';
 
-export const SITE_URL = ((import.meta.env.VITE_SITE_URL as string | undefined) || 'https://ariba-collections.onrender.com').replace(/\/$/, '');
+export const SITE_URL = ((import.meta.env.VITE_SITE_URL as string | undefined) || 'https://aribas.in').replace(/\/$/, '');
 export const BRAND = 'Aribas';
 export const DEFAULT_IMAGE = '/og-image.jpg';
 export const DEFAULT_DESCRIPTION =
