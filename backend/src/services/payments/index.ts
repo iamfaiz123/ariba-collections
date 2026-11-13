@@ -378,7 +378,7 @@ export async function paymentsService(app: FastifyInstance, opts: { workers: boo
   });
 
   // ── local testing only: pretend to be the customer + Razorpay ──
-  if (config.PAYMENT_PROVIDER === 'mock' && !config.isProd) {
+  if (config.PAYMENT_PROVIDER === 'mock' && (!config.isProd || config.ALLOW_TEST_MODE)) {
     app.post('/api/payments/mock/pay', async (req) => {
       const b = z.object({ providerOrderId: z.string(), outcome: z.enum(['success', 'failure']).default('success'), sendWebhook: z.boolean().default(true), method: z.string().default('upi') }).parse(req.body);
       const { payment, signature } = mockGateway.pay(b.providerOrderId, { fail: b.outcome === 'failure', method: b.method });

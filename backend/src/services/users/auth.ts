@@ -17,6 +17,7 @@ import { hmacHex, maskPhone, normalizePhone, randomToken, safeEqualHex, sha256 }
  */
 
 const COOKIE = 'aribas_rt';
+const testPhones = () => config.TEST_PHONES.map((p) => { try { return normalizePhone(p); } catch { return ''; } }).filter(Boolean);
 const RESEND_SECONDS = 30;
 
 const codeHash = (phone: string, code: string) => hmacHex(config.JWT_SECRET, `otp:${phone}:${code}`);
@@ -91,8 +92,8 @@ export async function authRoutes(app: FastifyInstance) {
       ok: true,
       expiresIn: config.OTP_TTL_MINUTES * 60,
       resendIn: RESEND_SECONDS,
-      // Local development only: no WhatsApp is configured, so show the code.
-      ...(config.WHATSAPP_PROVIDER === 'console' && !config.isProd ? { devCode: code } : {}),
+      // No WhatsApp configured: show the code locally, or on a hosted test server only for TEST_PHONES.
+      ...(config.WHATSAPP_PROVIDER === 'console' && (!config.isProd || testPhones().includes(phone)) ? { devCode: code } : {}),
     };
   });
 

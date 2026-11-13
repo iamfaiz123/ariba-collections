@@ -38,6 +38,13 @@ const schema = z.object({
   PAYMENTS_URL: z.string().optional(),
   /** Phone numbers that get the admin role when they log in, e.g. "+919000000000,+919111111111". */
   ADMIN_PHONES: list,
+  /**
+   * Hosted test server before Razorpay/WhatsApp keys exist: lets production run with the mock
+   * gateway and console WhatsApp. Login codes are shown on screen ONLY for numbers in TEST_PHONES.
+   * Remove both once the real keys are in.
+   */
+  ALLOW_TEST_MODE: bool,
+  TEST_PHONES: list,
 
   PAYMENT_PROVIDER: z.enum(['mock', 'razorpay']).default('mock'),
   RAZORPAY_KEY_ID: z.string().default(''),
@@ -84,12 +91,13 @@ if (isProd) {
   const problems: string[] = [];
   if (env.JWT_SECRET.startsWith('dev-only') || env.JWT_SECRET.length < 32) problems.push('JWT_SECRET must be a random string of 32+ characters');
   if (env.INTERNAL_TOKEN === 'dev-internal-token' || env.INTERNAL_TOKEN.length < 24) problems.push('INTERNAL_TOKEN must be a random string of 24+ characters');
-  if (env.PAYMENT_PROVIDER !== 'razorpay') problems.push('PAYMENT_PROVIDER must be "razorpay" in production');
+  if (env.PAYMENT_PROVIDER !== 'razorpay' && !env.ALLOW_TEST_MODE) problems.push('PAYMENT_PROVIDER must be "razorpay" in production');
   if (env.PAYMENT_PROVIDER === 'razorpay' && (!env.RAZORPAY_KEY_ID || !env.RAZORPAY_KEY_SECRET || !env.RAZORPAY_WEBHOOK_SECRET))
     problems.push('RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET and RAZORPAY_WEBHOOK_SECRET are required');
-  if (env.WHATSAPP_PROVIDER !== 'meta') problems.push('WHATSAPP_PROVIDER must be "meta" in production (customers need their OTP)');
+  if (env.WHATSAPP_PROVIDER !== 'meta' && !env.ALLOW_TEST_MODE) problems.push('WHATSAPP_PROVIDER must be "meta" in production (customers need their OTP)');
   if (env.WHATSAPP_PROVIDER === 'meta' && (!env.WHATSAPP_TOKEN || !env.WHATSAPP_PHONE_NUMBER_ID))
     problems.push('WHATSAPP_TOKEN and WHATSAPP_PHONE_NUMBER_ID are required');
+  if (env.ALLOW_TEST_MODE) console.warn('⚠ ALLOW_TEST_MODE is on: mock payments / console WhatsApp. Never take real orders like this.');
   if (problems.length) {
     console.error('Refusing to start in production:\n- ' + problems.join('\n- '));
     process.exit(1);

@@ -304,10 +304,11 @@ test('payment after the hold expired: confirmed if stock remains, refunded if it
 
 test('checkout refuses when the bag has a sold-out item', async () => {
   await query(`DELETE FROM cart.items`);
-  await api('POST', '/api/cart/items', { token: alice.accessToken, body: { productId, size: 'S', qty: 1 } });
+  const added = await api('POST', '/api/cart/items', { token: alice.accessToken, body: { productId, size: 'S', qty: 1 } });
+  assert.equal(added.status, 200, JSON.stringify(added.data));
   await query(`UPDATE products.variants SET stock = 0 WHERE product_id = $1 AND size = 'S'`, [productId]);
   const r = await api('POST', '/api/orders/checkout', { token: alice.accessToken, body: { addressId: aliceAddress } });
-  assert.equal(r.status, 409);
+  assert.equal(r.status, 409, JSON.stringify(r.data));
   assert.equal(r.data.error.code, 'cart_changed');
   await query(`UPDATE products.variants SET stock = 5 WHERE product_id = $1 AND size = 'S'`, [productId]);
   await query(`DELETE FROM cart.items`);
