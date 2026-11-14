@@ -50,6 +50,13 @@
   .link { @apply underline decoration-ink/30 underline-offset-4 transition hover:text-brand hover:decoration-brand; }
   .tile { @apply bg-[#ECEAE7]; }
   .text-outline { color: transparent; -webkit-text-stroke: 1.5px theme("colors.brand.DEFAULT"); }
+  /* Two-tone serif display headings ("Try the *Look*.") */
+  .display-serif { @apply font-serif normal-case leading-[1.02] tracking-tight text-ink; font-size: clamp(2.4rem, 6vw, 4.75rem); }
+  .display-serif em { @apply italic text-brand-600; }
+  .arch { border-radius: 999px 999px 18px 18px; }
+  /* Fades in and lifts each home section as it scrolls into view */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-in { opacity: 1; transform: none; }
   .glass { @apply border border-white/40 bg-white/25 backdrop-blur-md; }
 }
 
